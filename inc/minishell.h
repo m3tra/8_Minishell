@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 01:47:42 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/25 04:30:52 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_global
 
 char	**split_args(char const *s);
 t_env	*parseenv(char **env, int a);
+void	free_global();
 
 void	builtin(char **argv);
 

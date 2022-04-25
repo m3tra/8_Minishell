@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 02:00:16 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/25 05:07:47 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,6 @@ void	free_global()
 
 	if (g_global.env)
 		freenv(g_global.env);
-	if (g_global.env)
-		free(g_global.env);
 	if (g_global.input)
 		free(g_global.input);
 	if (g_global.cwd)
@@ -132,6 +130,7 @@ void	free_global()
 		freelist(g_global.exports);
 	if (g_global.exports)
 		free(g_global.exports);
+	exit(EXIT_SUCCESS);
 }
 
 char	*last_dir()
@@ -178,12 +177,12 @@ void	read_command()
 	// while (argv[++i])
 	// 	free(argv[i]);
 	free(tmp);
-	exit(EXIT_SUCCESS);
+	// exit(EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	pid_t	id;
+	// pid_t	id;
 	// t_env	*env_vars;
 	// char	*input;
 	// char	**params;
@@ -196,20 +195,20 @@ int	main(int argc, char **argv, char **env)
 
 
 	if (!global_init(env))
-	{
 		free_global();
-		return (0);
-	}
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, );
 	while (1)
 	{
-		id = fork();
-		if (id)
-			wait(NULL);
-		else
-		{
-			read_command();
-		}
+		// if (!ft_strcmp(argv[0], "cd"))
+		// 	chdir(argv[1]);
+		// id = fork();
+		// if (id)
+		// 	wait(NULL);
+		// else
+		// {
+		read_command();
+		// }
 	}
 	free_global();
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:20 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 01:36:39 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/25 04:37:55 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,11 +157,10 @@ void	builtin(char **argv)
 			printf("Failed to execute command \"%s\"\n", argv[0]);
 		else
 			printf("%s\n", g_global.cwd);
-		// free(pwd);
 	}
 	else if (!ft_strcmp(argv[0], "cd"))
 	{
-		if (chdir(argv[1]) == -1)
+		if (chdir(argv[1]) != 0)
 		{
 			if (errno == ENOENT)
 				printf("cd: no such file or directory: %s", argv[1]);
@@ -175,13 +174,12 @@ void	builtin(char **argv)
 	else if (!ft_strcmp(argv[0], "env"))
 	{
 		tmp = g_global.env;
-		while (g_global.env)
+		while (tmp)
 		{
-			printf("%s=%s\n", g_global.env->name, g_global.env->value);
-			g_global.env = g_global.env->next;
+			printf("%s=%s\n", tmp->name, tmp->value);
+			tmp = tmp->next;
 		}
-		g_global.env = tmp;
 	}
 	else if (!ft_strcmp(argv[0], "exit"))
-		exit(EXIT_SUCCESS);
+		free_global();
 }
