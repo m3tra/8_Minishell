@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/25 00:02:34 by fporto            #+#    #+#             */
+/*   Updated: 2022/04/25 00:02:36 by fporto           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static int	is_spacer(char c)
@@ -90,7 +102,7 @@ char	**split_args(char const *s)
 	start = spaces(str);
 	while (++i < nb)
 	{
-		arr[i] = get_word(s);
+		arr[i] = get_word(str + start);
 		start += (ft_strlen(arr[i]));
 		start += spaces(str + start);
 	}
