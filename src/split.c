@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:34 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 00:02:36 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/25 07:17:25 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,33 @@ static size_t	nb_words(char *s)
 {
 	size_t	i;
 	size_t	nb;
+	int		s_quote;
+	int		dbl_quote;
 
-	if (s)
+	s_quote = 0;
+	dbl_quote = 0;
+	if (!s)
+		return (0);
+	i = 0;
+	nb = 0;
+	while (s[i])
 	{
-		i = 0;
-		nb = 0;
-		while (s[i])
-		{
-			while (s[i] && is_spacer(s[i]))
-				i++;
-			if (!s[i])
-				return (0);
-			while (s[i] && !is_spacer(s[i]))
-				i++;
-			nb++;
-			while (s[i] && is_spacer(s[i]))
-				i++;
-		}
-		return (nb);
+		while (s[i] && is_spacer(s[i]))
+			i++;
+		if (!s[i])
+			return (nb);
+		while (s[i] && !is_spacer(s[i]))
+			i++;
+		nb++;
+		while (s[i] && is_spacer(s[i]))
+			i++;
 	}
-	return (0);
+	return (nb);
 }
 
 static int	spaces(char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (is_spacer(s[i]))
@@ -59,25 +61,23 @@ static char	*get_word(char *s)
 	size_t	i;
 
 	i = 0;
-	if (s[i])
+	if (!s[i])
+		return (0);
+	while (*s && is_spacer(*s))
+		s++;
+	while (s[i] && !is_spacer(s[i]))
+		i++;
+	word = malloc(i + 1);
+	if (!word)
+		return (NULL);
+	i = 0;
+	while (s[i] && !is_spacer(s[i]))
 	{
-		while (*s && is_spacer(*s))
-			s++;
-		while (s[i] && !is_spacer(s[i]))
-			i++;
-		word = malloc(i + 1);
-		if (!word)
-			return (NULL);
-		i = 0;
-		while (s[i] && !is_spacer(s[i]))
-		{
-			word[i] = s[i];
-			i++;
-		}
-		word[i] = '\0';
-		return (word);
+		word[i] = s[i];
+		i++;
 	}
-	return (0);
+	word[i] = '\0';
+	return (word);
 }
 
 char	**split_args(char const *s)
@@ -95,9 +95,8 @@ char	**split_args(char const *s)
 	arr = (char **)malloc(sizeof(char *) * (nb + 1));
 	if (!arr)
 		return (NULL);
-	arr[nb] = NULL;
 	if (!nb)
-		return (arr);
+		return (NULL);
 	i = -1;
 	start = spaces(str);
 	while (++i < nb)
