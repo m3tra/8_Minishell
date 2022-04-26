@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 07:25:11 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/26 02:12:44 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,22 @@
 
 void	global_init(char **env)
 {
-	g_global.env = parse_env(env, -1);
-	if (!g_global.env)
-		free_global();
+	g_global.env_list = parse_env(env, -1);
+	if (!g_global.env_list)
+		free_global("Failed env parsing");
+}
+
+void	free_arr(char **arr)
+{
+	int	i;
+
+	if (arr)
+	{
+		i = 0;
+		while (arr[i])
+			free(arr[i++]);
+		free(arr);
+	}
 }
 
 static void	free_list(t_list *list)
@@ -31,26 +44,21 @@ static void	free_list(t_list *list)
 	}
 }
 
-void	free_global(void)
+void	free_global(char *err)
 {
-	int a;
-
-	if (g_global.env)
-		free_env(g_global.env);
-	if (g_global.input)
-		free(g_global.input);
-	if (g_global.cwd)
-		free(g_global.cwd);
-	if (g_global.argv)
-	{
-		a = -1;
-		while (g_global.argv[++a])
-			free(g_global.argv[a]);
-		free(g_global.argv);
-	}
+	if (g_global.env_list)
+		free_env(g_global.env_list);
+	ft_free(g_global.input);
+	ft_free(g_global.cwd);
+	free_arr(g_global.argv);
 	if (g_global.exports)
 		free_list(g_global.exports);
-	if (g_global.exports)
-		free(g_global.exports);
+	ft_free(g_global.exports);
+	rl_clear_history();
+	if (err)
+	{
+		printf("Error: %s\n", err);
+		exit(EXIT_FAILURE);
+	}
 	exit(EXIT_SUCCESS);
 }

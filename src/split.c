@@ -6,11 +6,11 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:34 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 07:17:25 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/26 01:55:56 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
 static int	is_spacer(char c)
 {
@@ -105,5 +105,6 @@ char	**split_args(char const *s)
 		start += (ft_strlen(arr[i]));
 		start += spaces(str + start);
 	}
+	arr[i] = NULL;
 	return (arr);
 }

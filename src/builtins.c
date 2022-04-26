@@ -6,35 +6,46 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:20 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 07:34:38 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/26 01:30:52 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin(char **argv)
+static int	is_builtin(char *cmd)
+{
+	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "pwd")
+		|| !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "export")
+		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env")
+		|| !ft_strcmp(cmd, "exit"));
+}
+
+void	builtin(void)
 {
 	t_env	*tmp;
 
-	if (!ft_strcmp(argv[0], "echo"))
+	if (!is_builtin(g_global.argv[0]))
+		return ;
+	if (!ft_strcmp(g_global.argv[0], "echo"))
 		echo();
-	else if (!ft_strcmp(argv[0], "pwd"))
+	else if (!ft_strcmp(g_global.argv[0], "pwd"))
 		printf("%s\n", g_global.cwd);
-	else if (!ft_strcmp(argv[0], "cd"))
-		cd();
-	else if (!ft_strcmp(argv[0], "export"))
+	// else if (!ft_strcmp(g_global.argv[0], "cd"))
+		// cd();
+	else if (!ft_strcmp(g_global.argv[0], "export"))
 		export();
-	else if (!ft_strcmp(argv[0], "unset"))
-		unset(argv[1]);
-	else if (!ft_strcmp(argv[0], "env"))
+	else if (!ft_strcmp(g_global.argv[0], "unset"))
+		unset(g_global.argv[1]);
+	else if (!ft_strcmp(g_global.argv[0], "env"))
 	{
-		tmp = g_global.env;
+		tmp = g_global.env_list;
 		while (tmp)
 		{
 			printf("%s=%s\n", tmp->name, tmp->value);
 			tmp = tmp->next;
 		}
 	}
-	else if (!ft_strcmp(argv[0], "exit"))
-		free_global();
+	// else if (!ft_strcmp(g_global.argv[0], "exit"))
+		// free_global(NULL);
+	free_global(NULL);
 }

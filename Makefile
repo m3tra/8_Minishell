@@ -149,7 +149,7 @@ DEFAULT_LIB_RULES += debug_tsan debug_tsan_re debug_msan debug_msan_re
 # Exemple:
 # DIRS := folder1/:folder2/
 # DIRS += folder1/:folder3/:folder4/
-DIRS := ./:commands/:
+DIRS := ./:commands/
 
 SRC_DIRS_LIST := $(addprefix ${SRC_ROOT},${DIRS})
 SRC_DIRS_LIST := $(foreach dl,${SRC_DIRS_LIST},$(subst :,:${SRC_ROOT},${dl}))

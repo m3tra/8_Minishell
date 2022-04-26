@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 14:40:32 by fporto            #+#    #+#             */
-/*   Updated: 2022/01/26 04:39:38 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/25 21:56:07 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ int				ft_abs(int n);
 char			*ft_strcat_char(char *str, char c);
 char			*ft_char_to_str(char c);
 int				ft_isstrdigit(char *str);
+void			ft_free(void *ptr);
 
 #endif

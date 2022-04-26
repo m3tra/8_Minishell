@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:12:47 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 07:18:38 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/25 22:01:35 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ void	free_env(t_env *env_vars)
 
 	while (env_vars)
 	{
-		if (env_vars->name)
-			free(env_vars->name);
-		if (env_vars->value)
-			free(env_vars->value);
+		ft_free(env_vars->name);
+		ft_free(env_vars->value);
 		tmp = env_vars->next;
 		free(env_vars);
 		env_vars = tmp;

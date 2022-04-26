@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 07:28:58 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/26 02:11:42 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <unistd.h>
 # include <errno.h>
 # include <signal.h>
+# include <dirent.h>
 
 # define INPUT_LEN 1000
 # define PROMPT " Gui:>"
@@ -32,12 +33,7 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	struct s_env	*next;
-}					t_env;
-
-// typedef struct s_input
-// {
-// 	char		*input;
-// }				t_input;
+}	t_env;
 
 typedef struct s_export
 {
@@ -47,30 +43,35 @@ typedef struct s_export
 
 typedef struct s_global
 {
-	struct s_env	*env;
-	// struct s_input	*input;
-	char			*input;
-	char			*cwd;
-	char			**argv;
-	t_list			*exports;
-}					t_global;
-
-char	**split_args(char const *s);
-t_env	*parse_env(char **env, int a);
-
-void	global_init(char **env);
-void	free_global(void);
-
-void	free_env(t_env *env_vars);
-void	free_global();
-
-void	cd(void);
-void	echo();
-void	export();
-void	unset(char *var);
-
-void	builtin(char **argv);
+	t_env	*env_list;
+	char	**envp;
+	char	**path_dirs;
+	char	*input;
+	char	*cwd;
+	char	**argv;
+	t_list	*exports;
+}	t_global;
 
 extern t_global	g_global;
+
+char	**split_args(char const *s);
+
+void	global_init(char **env);
+void	free_arr(char **arr);
+void	free_global(char *err);
+
+void	free_env(t_env *env_vars);
+t_env	*parse_env(char **env, int a);
+
+void	parse_path();
+
+void	cd(void);
+void	echo(void);
+void	export(void);
+void	unset(char *var);
+
+void	builtin(void);
+
+void	not_builtin(void);
 
 #endif
