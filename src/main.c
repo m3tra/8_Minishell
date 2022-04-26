@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/26 02:12:30 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/26 04:31:17 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,31 @@ static char	*last_dir(void)
 	return (ft_strdup(g_global.cwd + len));
 }
 
-// static void	check_asp(char	**argv)
+// char	*ft_strlchr(const char *s, int c, int len)
 // {
-// 	int len;
-// 	int a;
-// 	int b;
+// 	size_t	i;
+
+// 	if (!s)
+// 		return (NULL);
+// 	i = 0;
+// 	while (s[i] != '\0' || len == 0)
+// 	{
+// 		if (s[i] == (unsigned char)c && s[i - 1] != '\\')
+// 			return ((char *)s + i);
+// 		i++;
+// 		len--;
+// 	}
+// 	if (c == '\0')
+// 		return ((char *)s + i);
+// 	return (NULL);
+// }
+
+// static void	check_meta(char	**argv)
+// {
+// 	int 	len;
+// 	int 	a;
+// 	int 	b;
+//	char	*tmp;
 
 // 	(void) argv;
 // 	a = 0;
@@ -42,15 +62,19 @@ static char	*last_dir(void)
 // 			else if (argv[a][b] == 34)
 // 			{
 // 				len = ft_strchr(&argv[a][b + 1], 34) - &argv[a][b + 1];
-// 				if (!ft_strchr(&argv[a][b + 1], '&'))
-// 					b += len;
+//				tmp = ft_strlchr(&argv[a][b + 1], '$', len)
+// 				if (tmp && tmp - 1 != \)
+// 					//handle "$"
+//				b += len;
 // 			}
 // 			else if (argv[a][b] == 39)
 // 				b += (ft_strchr(&argv[a][b + 1], 34) - &argv[a][b]);
+// 			else
+//				check_meta_extra(argv, a, b)
 // 		}
 // 	}
 // }
-// static void	check_meta(char	**argv)
+// static void	check_meta_extra(char	**argv, a, b)
 // {
 // 		if (argv[a][b] == '>')
 // 		{
@@ -67,29 +91,6 @@ static char	*last_dir(void)
 // 			if (argv[a][b + 1] == '<')
 // 				b++;
 // 		}
-// 		if (argv[a][b] == '*')
-// 		{
-// 			//file substitution wildcard;zero or more characters
-// 		}
-// 		if (argv[a][b] == '?')
-// 		{
-// 			//File substitution wildcard; one character
-// 		}
-// 		if (argv[a][b] == '[' && argv[a][b + 1] == ']')
-// 		{
-// 			if (ft_strchr(argv[a], ']')){}
-// 				//File substitution wildcard; any character between brackets
-// 		}
-// 		if (argv[a][b] == '`')
-// 		{
-// 			if (!ft_strcmp(&argv[a][b], "`cmd`")){}
-// 		}
-// 		if (argv[a][b] == '$')
-// 		{
-// 			if (!ft_strcmp(&argv[a][b], "$(cmd)")){}
-// 			else if (argv[a][b + 1] == '$'){}
-// 			else{}
-// 		}
 // 		if (argv[a][b] == '|')
 // 		{
 // 			if(argv[a][b + 1] == '|'){}
@@ -97,25 +98,26 @@ static char	*last_dir(void)
 // 			else{}
 // 				//pipe
 // 		}
-// 		if (argv[a][b] == ';')
+// 		if (argv[a][b] == '$')
 // 		{
-// 			//Command sequence, Sequences of Commands
+// 			//Expand the value of a variable
 // 		}
-// 		if (argv[a][b] == '(' && argv[a][b + 1] == ')')
-// 		{
-// 			//Group commands, Sequences of Commands
-// 		}
-// 		if (argv[a][b] == '&')
-// 		{
-// 			if (argv[a][b + 1] == '&'){}
-// 				// AND
-// 			else{}
-// 				//Run command in the background, Background Processes
-// 		}
-// 		if (argv[a][b] == '#')
-// 		{
-// 			// Comment
-// 		}
+
+//				//check implementation inside or outside "$"
+// 						if (argv[a][b] == '?')
+// 						{
+// 							//File substitution wildcard; one character
+// 						}
+
+//				//bonus
+// 						if (argv[a][b] == '&' && argv[a][b + 1] == '&')
+// 						{
+// 								// AND
+// 						}
+// 						if (argv[a][b] == '*')
+// 						{
+// 							//file substitution wildcard;zero or more characters
+// 						}
 // }
 
 static void	read_command(void)
@@ -139,7 +141,7 @@ static void	read_command(void)
 		add_history(g_global.input);
 	free_arr(g_global.argv);
 	g_global.argv = split_args(g_global.input);
-	// check_asp(g_global.argv);
+	// check_meta(g_global.argv);
 }
 
 static void	sigint_action(int signal)
