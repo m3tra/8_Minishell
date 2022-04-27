@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/26 04:31:17 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/04/27 01:13:58 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,56 +24,82 @@ static char	*last_dir(void)
 	return (ft_strdup(g_global.cwd + len));
 }
 
-// char	*ft_strlchr(const char *s, int c, int len)
-// {
-// 	size_t	i;
+char	*ft_strlchr(const char *s, int c, int len)
+{
+	size_t	i;
 
-// 	if (!s)
-// 		return (NULL);
-// 	i = 0;
-// 	while (s[i] != '\0' || len == 0)
-// 	{
-// 		if (s[i] == (unsigned char)c && s[i - 1] != '\\')
-// 			return ((char *)s + i);
-// 		i++;
-// 		len--;
-// 	}
-// 	if (c == '\0')
-// 		return ((char *)s + i);
-// 	return (NULL);
-// }
+	if (!s)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0' || len == 0)
+	{
+		if (s[i] == (unsigned char)c && s[i - 1] != '\\')
+			return ((char *)s + i);
+		i++;
+		len--;
+	}
+	if (c == '\0')
+		return ((char *)s + i);
+	return (NULL);
+}
 
-// static void	check_meta(char	**argv)
-// {
-// 	int 	len;
-// 	int 	a;
-// 	int 	b;
-//	char	*tmp;
+int	handle_dollar(char *var, int i)
+{
+	t_export *tmp;
 
-// 	(void) argv;
-// 	a = 0;
-// 	while(argv[++a])
-// 	{
-// 		b = -1;
-// 		while(argv[a][++b])
-// 		{
-// 			if (argv[a][b] != '\\')
-// 				b += 2;
-// 			else if (argv[a][b] == 34)
-// 			{
-// 				len = ft_strchr(&argv[a][b + 1], 34) - &argv[a][b + 1];
-//				tmp = ft_strlchr(&argv[a][b + 1], '$', len)
-// 				if (tmp && tmp - 1 != \)
-// 					//handle "$"
-//				b += len;
-// 			}
-// 			else if (argv[a][b] == 39)
-// 				b += (ft_strchr(&argv[a][b + 1], 34) - &argv[a][b]);
-// 			else
-//				check_meta_extra(argv, a, b)
-// 		}
-// 	}
-// }
+	tmp = g_global.exports;
+	while(strcmp(tmp.key, var))
+		tmp.exports = tmp.exports.next;
+	if (strcmp(tmp.key, var))
+		return (1);
+	return (0);
+	//fazer alteração na string original
+}
+
+static void	check_meta(char	**argv)
+{
+	long 	len;
+	int 	a;
+	int 	b;
+	char	*tmp;
+	int		i;
+
+	a = -1;
+	printf("start\n");
+	while(argv[++a])
+	{
+		printf("%s\n", argv[a]);
+		b = -1;
+		while(argv[a][++b])
+		{
+			if (argv[a][b] == '\\')
+				b += 2;
+			else if (argv[a][b] == '\"')
+			{
+				printf("sim\n");
+				len = (long)((unsigned long)ft_strchr(&argv[a][b + 1], '\"') - (unsigned long)&argv[a][b + 1]);
+				tmp = ft_strlchr(&argv[a][b + 1], '$', len);
+				printf("%d: %p\n", len, tmp);
+				if (tmp && tmp[-1] != '\\')
+				{
+					i = 0;
+					while(ft_strchr(" \'\"\\;&|", tmp[i + 1]))
+						i++;
+					if (check_var(tmp, i))
+						//fazer alteração na string original
+				}
+				if (len > 0)
+					b += (len + 1);
+					// +1 para a aspa final
+			}
+			else if (argv[a][b] == '\'')
+				b += (ft_strchr(&argv[a][b + 1], '\'') - &argv[a][b]) + 1;// +1 para a aspa final
+			// else
+			// 	// check_meta_extra(argv, a, b);
+		}
+	}
+}
+
 // static void	check_meta_extra(char	**argv, a, b)
 // {
 // 		if (argv[a][b] == '>')
@@ -118,7 +144,7 @@ static char	*last_dir(void)
 // 						{
 // 							//file substitution wildcard;zero or more characters
 // 						}
-// }
+// }    a || (b && c) && d
 
 static void	read_command(void)
 {
@@ -141,7 +167,7 @@ static void	read_command(void)
 		add_history(g_global.input);
 	free_arr(g_global.argv);
 	g_global.argv = split_args(g_global.input);
-	// check_meta(g_global.argv);
+	check_meta(g_global.argv);
 }
 
 static void	sigint_action(int signal)

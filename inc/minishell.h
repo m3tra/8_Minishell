@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/26 02:11:42 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/26 23:59:48 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ typedef struct s_env
 
 typedef struct s_export
 {
-	char	*key;
-	char	*value;
+	char				*key;
+	char				*value;
+	struct	s_export	*next;
 }	t_export;
 
 typedef struct s_global
