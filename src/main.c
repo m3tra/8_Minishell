@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/27 01:13:58 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:03:41 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	handle_dollar(char *var, int i)
 	t_export *tmp;
 
 	tmp = g_global.exports;
-	while(strcmp(tmp.key, var))
-		tmp.exports = tmp.exports.next;
-	if (strcmp(tmp.key, var))
+	while(strcmp(tmp->key, var))
+		tmp = tmp->next;
+	if (strcmp(tmp->key, var))
 		return (1);
 	return (0);
 	//fazer alteração na string original
@@ -65,10 +65,8 @@ static void	check_meta(char	**argv)
 	int		i;
 
 	a = -1;
-	printf("start\n");
 	while(argv[++a])
 	{
-		printf("%s\n", argv[a]);
 		b = -1;
 		while(argv[a][++b])
 		{
@@ -76,17 +74,15 @@ static void	check_meta(char	**argv)
 				b += 2;
 			else if (argv[a][b] == '\"')
 			{
-				printf("sim\n");
 				len = (long)((unsigned long)ft_strchr(&argv[a][b + 1], '\"') - (unsigned long)&argv[a][b + 1]);
 				tmp = ft_strlchr(&argv[a][b + 1], '$', len);
-				printf("%d: %p\n", len, tmp);
 				if (tmp && tmp[-1] != '\\')
 				{
 					i = 0;
 					while(ft_strchr(" \'\"\\;&|", tmp[i + 1]))
 						i++;
-					if (check_var(tmp, i))
-						//fazer alteração na string original
+					// if (handle_dollar(tmp, i))
+					// 	//fazer alteração na string original
 				}
 				if (len > 0)
 					b += (len + 1);

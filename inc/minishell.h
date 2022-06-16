@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/26 23:59:48 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:03:41 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,18 @@ typedef struct s_export
 {
 	char				*key;
 	char				*value;
-	struct	s_export	*next;
+	struct s_export		*next;
 }	t_export;
 
 typedef struct s_global
 {
-	t_env	*env_list;
-	char	**envp;
-	char	**path_dirs;
-	char	*input;
-	char	*cwd;
-	char	**argv;
-	t_list	*exports;
+	t_env		*env_list;
+	char		**envp;
+	char		**path_dirs;
+	char		*input;
+	char		*cwd;
+	char		**argv;
+	t_export	*exports;
 }	t_global;
 
 extern t_global	g_global;

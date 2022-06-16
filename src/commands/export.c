@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:03:01 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 07:21:35 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/27 19:30:32 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	export_add_back(t_export **lst, t_export *new)
+{
+	t_export	*list;
+	t_export	*tmp;
+
+	if (lst)
+	{
+		if (*lst == NULL)
+			*lst = new;
+		else
+		{
+			tmp = *lst;
+			while (tmp->next)
+				tmp = tmp->next;
+			list = tmp;
+			list->next = new;
+		}
+	}
+}
 
 void	export(void)
 {
@@ -38,5 +58,5 @@ void	export(void)
 	while (g_global.argv[1][key_len + ++i + 1])
 		export->value[i] = g_global.argv[1][key_len + i + 1];
 	export->value[value_len] = '\0';
-	ft_lstadd_back(&g_global.exports, ft_lstnew((void *)export));
+	export_add_back(&g_global.exports, export);
 }

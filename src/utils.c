@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/26 02:12:44 by fporto           ###   ########.fr       */
+/*   Updated: 2022/04/27 19:20:42 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ void	free_arr(char **arr)
 	}
 }
 
-static void	free_list(t_list *list)
+static void	free_exports(t_export *exports)
 {
-	t_list	*tmp;
+	t_export	*tmp;
 
-	while (list)
+	while (exports)
 	{
-		tmp = list->next;
-		free(list->content);
-		list = tmp;
+		tmp = exports->next;
+		free(exports->key);
+		free(exports->value);
+		exports = tmp;
 	}
 }
 
@@ -52,7 +53,7 @@ void	free_global(char *err)
 	ft_free(g_global.cwd);
 	free_arr(g_global.argv);
 	if (g_global.exports)
-		free_list(g_global.exports);
+		free_exports(g_global.exports);
 	ft_free(g_global.exports);
 	rl_clear_history();
 	if (err)
