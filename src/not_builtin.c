@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 01:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/26 01:45:01 by fporto           ###   ########.fr       */
+/*   Updated: 2022/06/17 18:50:46 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ void	not_builtin(void)
 	if (command_exists(g_global.argv[0]))
 	{
 		path = ft_strjoin(g_global.cwd, g_global.argv[0]);
+		// printf("path: %s\n", path);
+		// printf("argv:\n");
+		// for (size_t i = 0; g_global.argv[i]; i++)
+		// 	printf("  %s\n", g_global.argv[i]);
+		// printf("envp:\n");
+		// for (size_t i = 0; g_global.envp[i]; i++)
+		// 	printf("  %s\n", g_global.envp[i]);
 		execve(path, g_global.argv, g_global.envp);
 		free(path);
 	}

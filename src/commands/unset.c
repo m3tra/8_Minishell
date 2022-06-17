@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:02:38 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/27 19:34:09 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:44:25 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,19 @@
 
 void	unset(char *var)
 {
-	t_list		*iter;
-	t_list		*tmp;
-	t_export	*cont;
+	t_export	*iter;
+	char		*key;
 	t_export	*rm;
 
 	iter = g_global.exports;
 	if (iter->next)
-		cont = (t_export *)iter->next->content;
-	while (iter->next && ft_strcmp(cont->key, var))
+		key = iter->next->key;
+	while (iter->next && ft_strcmp(key, var))
 	{
-		cont = (t_export *)iter->next->content;
+		key = iter->next->key;
 		iter = iter->next;
 	}
-	tmp = iter->next;
-	rm = (t_export *)tmp->content;
+	rm = iter->next;
 	if (iter->next->next)
 		iter->next = iter->next->next;
 	else

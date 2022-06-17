@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/06/16 17:03:41 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/06/17 18:52:00 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_strlchr(const char *s, int c, int len)
 	return (NULL);
 }
 
-int	handle_dollar(char *var, int i)
+int	handle_dollar(char *var)
 {
 	t_export *tmp;
 
@@ -155,9 +155,16 @@ static void	read_command(void)
 	tmp = ft_strjoin(last, prompt);
 	free(last);
 	free(prompt);
-	g_global.input = readline(tmp);
-	while (!g_global.input)
+	while ("drip")
+	{
 		g_global.input = readline(tmp);
+		if (g_global.input && ft_strlen(g_global.input) != 0)
+			break;
+		else if (g_global.input)
+			free(g_global.input);
+		if (!g_global.input || g_global.exit)
+			free_global(NULL);
+	}
 	free(tmp);
 	if (*g_global.input)
 		add_history(g_global.input);
@@ -166,6 +173,9 @@ static void	read_command(void)
 	check_meta(g_global.argv);
 }
 
+/*
+*	Ctrl+C handler
+*/
 static void	sigint_action(int signal)
 {
 	rl_replace_line("", signal);
@@ -182,10 +192,10 @@ int	main(int argc, char **argv, char **env)
 
 	global_init(env);
 
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sigint_action);
+	signal(SIGQUIT, SIG_IGN);		// Ctrl + \			//
+	signal(SIGINT, sigint_action);	// Ctrl + C
 
-	while (1)
+	while ("swag")
 	{
 		read_command();
 		if (!ft_strcmp(g_global.argv[0], "cd"))
