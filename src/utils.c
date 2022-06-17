@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/27 19:20:42 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/06/17 18:53:01 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	global_init(char **env)
 {
+	g_global.exit = 0;
 	g_global.env_list = parse_env(env, -1);
 	if (!g_global.env_list)
 		free_global("Failed env parsing");

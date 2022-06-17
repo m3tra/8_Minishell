@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/06/16 17:03:41 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/06/17 18:51:49 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ typedef struct s_global
 	char		*input;
 	char		*cwd;
 	char		**argv;
+	char		*infile;
+	char		*outfile;
+	char		*errfile;
+	int			exit;
 	t_export	*exports;
 }	t_global;
 
