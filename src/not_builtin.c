@@ -6,53 +6,84 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 01:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/06/17 18:50:46 by fporto           ###   ########.fr       */
+/*   Updated: 2022/07/25 23:36:58 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	command_exists(char *cmd)
+// Executes "path" executable and returns process PID
+pid_t	execute(char *path)
+{
+	pid_t	pid;
+	t_simple_cmd	*currSimpleCommand;
+
+	currSimpleCommand = g_global.fullCmd.currSimpleCommand;
+	pid = fork();
+	if (pid == -1)
+		free_global(CLR_RED"Failed fork"CLR_RST);
+	if (!pid)
+		if (execve(path, currSimpleCommand->args, g_global.env) == -1)
+			free_global(CLR_RED"Failed execve"CLR_RST);
+	// else
+	// 	wait(NULL);
+	return (pid);
+}
+
+// Searches individual folder for executable
+pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 {
 	DIR				*dir;
 	struct dirent	*entry;
-	char			*tmp;
-	int				ret;
+	char			*temp;
+	char			*new_path;
+	pid_t			ret;
+	char			*exec;
+
+	exec = sCmd->args[0];
+	ret = 0;
+	new_path = ft_strdup(path);
+	dir = opendir(path);
+	entry = readdir(dir);
+	while (entry != NULL)
+	{
+		if (!ft_strcmp(entry->d_name, exec))
+		{
+			new_path = ft_strcat_char(new_path, '/');
+			temp = new_path;
+			new_path = ft_strjoin(new_path, exec);
+			free(temp);
+			closedir(dir);
+			ret = execute(new_path);
+			free(new_path);
+			return (ret);
+		}
+		entry = readdir(dir);
+	}
+	free(new_path);
+	closedir(dir);
+	return (ret);
+}
+
+// Searches PATH for executable
+pid_t	search_path(t_simple_cmd *sCmd)
+{
+	pid_t	ret;
+	int		i;
 
 	ret = 0;
-	tmp = ".";
-	dir = opendir(tmp);
-	if (dir)
+	i = 0;
+	while (g_global.path_dirs[i])
 	{
-		entry = readdir(dir);
-		while (entry != NULL)
-		{
-			if (!ft_strcmp(entry->d_name, cmd))
-				ret = 1;
-			// printf("%s\n", entry->d_name);
-			entry = readdir(dir);
-		}
-		closedir(dir);
+		ret = search_dir(sCmd, g_global.path_dirs[i++]);
+		if (ret)
+			return (ret);
 	}
 	return (ret);
 }
 
-void	not_builtin(void)
+pid_t	not_builtin(t_simple_cmd *sCmd)
 {
-	char	*path;
-
-	if (command_exists(g_global.argv[0]))
-	{
-		path = ft_strjoin(g_global.cwd, g_global.argv[0]);
-		// printf("path: %s\n", path);
-		// printf("argv:\n");
-		// for (size_t i = 0; g_global.argv[i]; i++)
-		// 	printf("  %s\n", g_global.argv[i]);
-		// printf("envp:\n");
-		// for (size_t i = 0; g_global.envp[i]; i++)
-		// 	printf("  %s\n", g_global.envp[i]);
-		execve(path, g_global.argv, g_global.envp);
-		free(path);
-	}
-	free_global(NULL);
+	return (search_path(sCmd));
+	// free_global(NULL);
 }

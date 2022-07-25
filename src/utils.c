@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/06/17 18:53:01 by fporto           ###   ########.fr       */
+/*   Updated: 2022/07/19 13:59:41 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,20 @@
 
 void	global_init(char **env)
 {
+	g_global.env = env;
+
+	// printf("env:\n");
+	// print_str_array(env);
+
 	g_global.exit = 0;
+	g_global.cwd = getcwd(NULL, INPUT_LEN);
+	if (!g_global.cwd)
+		free_global(CLR_RED"Failed getting CWD"CLR_RST);
+	// printf("1cwd ptr: %p\ncwd cnt: %s\n", &g_global.cwd, g_global.cwd);
 	g_global.env_list = parse_env(env, -1);
 	if (!g_global.env_list)
-		free_global("Failed env parsing");
+		free_global(CLR_RED"Failed env parsing"CLR_RST);
+	parse_path();
 }
 
 void	free_arr(char **arr)
@@ -58,9 +68,6 @@ void	free_global(char *err)
 	ft_free(g_global.exports);
 	rl_clear_history();
 	if (err)
-	{
-		printf("Error: %s\n", err);
-		exit(EXIT_FAILURE);
-	}
+		perror(err);
 	exit(EXIT_SUCCESS);
 }
