@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 01:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/07/25 23:36:58 by fporto           ###   ########.fr       */
+/*   Updated: 2022/07/27 20:45:16 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 pid_t	execute(char *path)
 {
 	pid_t	pid;
-	t_simple_cmd	*currSimpleCommand;
+	t_simple_cmd	*currSimpleCmd;
 
-	currSimpleCommand = g_global.fullCmd.currSimpleCommand;
+	currSimpleCmd = g_global.fullCmd.currSimpleCmd;
 	pid = fork();
 	if (pid == -1)
 		free_global(CLR_RED"Failed fork"CLR_RST);
 	if (!pid)
-		if (execve(path, currSimpleCommand->args, g_global.env) == -1)
+		if (execve(path, currSimpleCmd->args, g_global.env) == -1)
 			free_global(CLR_RED"Failed execve"CLR_RST);
 	// else
 	// 	wait(NULL);

@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/07/25 23:23:33 by fporto           ###   ########.fr       */
+/*   Updated: 2022/07/27 20:47:06 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,11 +201,13 @@ void	handle_io(void)
 
 	int		nSimpleCommands;
 	t_simple_cmd	**simpleCmds;
+	t_simple_cmd	*currSimpleCmd;
 
 	nSimpleCommands = g_global.fullCmd.nSimpleCmds;
 	simpleCmds = g_global.fullCmd.simpleCmds;
 	for (int i = 0; i < nSimpleCommands; i++)
 	{
+		currSimpleCmd = simpleCmds[i];
 		//redirect input
 		dup2(fdIn, STDIN_FILENO);
 		close(fdIn);
@@ -233,11 +235,11 @@ void	handle_io(void)
 		dup2(fdOut, STDOUT_FILENO);
 		close(fdOut);
 
-		if (is_builtin(simpleCmds[i]->args[0]))
-			builtin(simpleCmds[i]->args[0]);
+		if (is_builtin(currSimpleCmd->args[0]))
+			builtin(currSimpleCmd->args[0]);
 		else
 		{
-			ret = not_builtin(simpleCmds[i]->args[0]);
+			ret = not_builtin(currSimpleCmd->args[0]);
 			if (!ret)
 				free_global(CLR_RED"Command not found"CLR_RST);
 		}

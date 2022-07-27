@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/07/25 23:37:17 by fporto           ###   ########.fr       */
+/*   Updated: 2022/07/27 20:45:19 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ typedef struct s_cmd {
 	char			*_errFile;
 	int				_background;
 
-	t_cmd			*currCommand;
-	t_simple_cmd	*currSimpleCommand;
+	t_cmd			*currCmd;
+	t_simple_cmd	*currSimpleCmd;
 }	t_cmd;
 
 typedef struct	s_env
