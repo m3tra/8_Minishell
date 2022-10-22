@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:48:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/08/03 16:02:06 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/22 18:07:23 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ int	unmask_str(char *str)
 		if (str [i] == D)
 			str[i] = '$';
 	}
+	return (1);
+}
+
+int	unmask(t_tree *t)
+{
+	t_cmd	*cmd;
+	int		i;
+
+	cmd = (t_cmd *)t->content;
+	i = -1;
+	if (cmd && cmd->line)
+		unmask_str(cmd->line);
+	if (cmd && cmd->cmd)
+		while (cmd->cmd[++i])
+			if (!unmask_str(cmd->cmd[i]))
+				return (0);
+	i = 0;
+	while (i < t->lcount)
+		if (!unmask(t->leafs[i++]))
+			return (0);
 	return (1);
 }
 

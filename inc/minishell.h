@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/07/29 17:07:00 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/22 18:12:06 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	free_global(char *err);
 
 void	free_env(t_env *env_vars);
 t_env	*parse_env(char **env, int a);
-int		check_input(const char *str);
 
 void	parse_path();
 

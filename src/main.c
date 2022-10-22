@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/10/18 16:52:36 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/22 18:13:04 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,18 @@ t_commands	*parse(char	*input)
 	t_commands *cmd;
 	int err;
 
+	err = 0;
 	cmd = check_input(input);
 	if (!cmd)
 		return (NULL);
-	cmd->tree = ft_treenew(NULL);
+	cmd->tree = treenew(NULL);
 	cmd->line = parse_q(ft_strdup(input), 0, cmd);
 	if ((split_cmd(cmd->tree, cmd->line, 0) - 1) == (int)ft_strlen(cmd->line))
-		return ;
+		return (NULL);
 	if (!parse_out(cmd->tree))
-		return ;
+		return (NULL);
 	if (!expand(cmd->tree))
-		return ;
+		return (NULL);
 	if (!word_split(cmd->tree))
 		err = 1;
 	if (!err)
@@ -93,7 +94,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		read_command();
-		if (!(parse(g_global.input)));
+		if (!(parse(g_global.input)))
 		{
 			bad input;
 			continue ;

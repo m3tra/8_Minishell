@@ -6,13 +6,13 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 18:58:32 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/07/30 00:18:03 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/22 17:59:23 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*realloc(void *ptr, size_t osize, size_t nsize)
+void	*ft_realloc(void *ptr, size_t osize, size_t nsize)
 {
 	char	*ret;
 
