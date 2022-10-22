@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/06/16 17:03:41 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:52:36 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,123 +24,29 @@ static char	*last_dir(void)
 	return (ft_strdup(g_global.cwd + len));
 }
 
-char	*ft_strlchr(const char *s, int c, int len)
+t_commands	*parse(char	*input)
 {
-	size_t	i;
+	t_commands *cmd;
+	int err;
 
-	if (!s)
+	cmd = check_input(input);
+	if (!cmd)
 		return (NULL);
-	i = 0;
-	while (s[i] != '\0' || len == 0)
-	{
-		if (s[i] == (unsigned char)c && s[i - 1] != '\\')
-			return ((char *)s + i);
-		i++;
-		len--;
-	}
-	if (c == '\0')
-		return ((char *)s + i);
-	return (NULL);
+	cmd->tree = ft_treenew(NULL);
+	cmd->line = parse_q(ft_strdup(input), 0, cmd);
+	if ((split_cmd(cmd->tree, cmd->line, 0) - 1) == (int)ft_strlen(cmd->line))
+		return ;
+	if (!parse_out(cmd->tree))
+		return ;
+	if (!expand(cmd->tree))
+		return ;
+	if (!word_split(cmd->tree))
+		err = 1;
+	if (!err)
+		unmask(cmd->tree);
+	return (cmd);
+	
 }
-
-int	handle_dollar(char *var, int i)
-{
-	t_export *tmp;
-
-	tmp = g_global.exports;
-	while(strcmp(tmp->key, var))
-		tmp = tmp->next;
-	if (strcmp(tmp->key, var))
-		return (1);
-	return (0);
-	//fazer alteração na string original
-}
-
-static void	check_meta(char	**argv)
-{
-	long 	len;
-	int 	a;
-	int 	b;
-	char	*tmp;
-	int		i;
-
-	a = -1;
-	while(argv[++a])
-	{
-		b = -1;
-		while(argv[a][++b])
-		{
-			if (argv[a][b] == '\\')
-				b += 2;
-			else if (argv[a][b] == '\"')
-			{
-				len = (long)((unsigned long)ft_strchr(&argv[a][b + 1], '\"') - (unsigned long)&argv[a][b + 1]);
-				tmp = ft_strlchr(&argv[a][b + 1], '$', len);
-				if (tmp && tmp[-1] != '\\')
-				{
-					i = 0;
-					while(ft_strchr(" \'\"\\;&|", tmp[i + 1]))
-						i++;
-					// if (handle_dollar(tmp, i))
-					// 	//fazer alteração na string original
-				}
-				if (len > 0)
-					b += (len + 1);
-					// +1 para a aspa final
-			}
-			else if (argv[a][b] == '\'')
-				b += (ft_strchr(&argv[a][b + 1], '\'') - &argv[a][b]) + 1;// +1 para a aspa final
-			// else
-			// 	// check_meta_extra(argv, a, b);
-		}
-	}
-}
-
-// static void	check_meta_extra(char	**argv, a, b)
-// {
-// 		if (argv[a][b] == '>')
-// 		{
-// 			if (argv[a][b + 1] == '>')
-// 			{
-// 				//append outgoing redirection
-// 			}
-// 			else{}
-// 				//outgoing redirection
-// 		}
-// 		if (argv[a][b] == '<')
-// 		{
-// 			//input redirection
-// 			if (argv[a][b + 1] == '<')
-// 				b++;
-// 		}
-// 		if (argv[a][b] == '|')
-// 		{
-// 			if(argv[a][b + 1] == '|'){}
-// 				// OR
-// 			else{}
-// 				//pipe
-// 		}
-// 		if (argv[a][b] == '$')
-// 		{
-// 			//Expand the value of a variable
-// 		}
-
-//				//check implementation inside or outside "$"
-// 						if (argv[a][b] == '?')
-// 						{
-// 							//File substitution wildcard; one character
-// 						}
-
-//				//bonus
-// 						if (argv[a][b] == '&' && argv[a][b + 1] == '&')
-// 						{
-// 								// AND
-// 						}
-// 						if (argv[a][b] == '*')
-// 						{
-// 							//file substitution wildcard;zero or more characters
-// 						}
-// }    a || (b && c) && d
 
 static void	read_command(void)
 {
@@ -163,7 +69,6 @@ static void	read_command(void)
 		add_history(g_global.input);
 	free_arr(g_global.argv);
 	g_global.argv = split_args(g_global.input);
-	check_meta(g_global.argv);
 }
 
 static void	sigint_action(int signal)
@@ -188,6 +93,11 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		read_command();
+		if (!(parse(g_global.input)));
+		{
+			bad input;
+			continue ;
+		}
 		if (!ft_strcmp(g_global.argv[0], "cd"))
 			cd();
 		else if (!ft_strcmp(g_global.argv[0], "exit"))
@@ -201,7 +111,6 @@ int	main(int argc, char **argv, char **env)
 		else
 		{
 			wait(NULL);
-
 		}
 	}
 	free_global(NULL);

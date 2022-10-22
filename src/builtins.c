@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:20 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/26 01:30:52 by fporto           ###   ########.fr       */
+/*   Updated: 2022/06/16 17:12:45 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	builtin(void)
 		echo();
 	else if (!ft_strcmp(g_global.argv[0], "pwd"))
 		printf("%s\n", g_global.cwd);
-	// else if (!ft_strcmp(g_global.argv[0], "cd"))
-		// cd();
 	else if (!ft_strcmp(g_global.argv[0], "export"))
 		export();
 	else if (!ft_strcmp(g_global.argv[0], "unset"))
