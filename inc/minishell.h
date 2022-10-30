@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/07/27 20:45:19 by fporto           ###   ########.fr       */
+/*   Updated: 2022/10/30 11:35:25 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_cmd {
 	char			*_errFile;
 	int				_background;
 
-	t_cmd			*currCmd;
+	struct t_cmd	*currCmd;
 	t_simple_cmd	*currSimpleCmd;
 }	t_cmd;
 
@@ -118,6 +118,7 @@ void	unset(char *var);
 
 int		is_builtin(char *cmd);
 int		builtin(t_simple_cmd *sCmd);
+// int		builtin(char *cmd);
 pid_t	not_builtin(t_simple_cmd *sCmd);
 pid_t	execute(char *path);
 

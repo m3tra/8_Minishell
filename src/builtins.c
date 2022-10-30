@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:20 by fporto            #+#    #+#             */
-/*   Updated: 2022/07/25 23:26:29 by fporto           ###   ########.fr       */
+/*   Updated: 2022/10/30 11:35:36 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ int	is_builtin(char *cmd)
 		|| !ft_strcmp(cmd, "env"));
 }
 
-int	builtin(t_simple_cmd sCmd)
+// int	builtin(char *cmd)
+int	builtin(t_simple_cmd *sCmd)
 {
 	t_env	*tmp;
 	char	*cmd;
 
-	cmd = sCmd.args[0];
+	cmd = sCmd->args[0];
 	if (!is_builtin(cmd))
 		return (0);
 	if (!ft_strcmp(cmd, "echo"))
