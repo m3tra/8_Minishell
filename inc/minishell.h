@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/10/30 11:35:25 by fporto           ###   ########.fr       */
+/*   Updated: 2022/10/30 12:22:49 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "readline.h"
 # include "history.h"
+# include "parse.h"
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -63,6 +64,10 @@ typedef struct s_cmd {
 
 	struct t_cmd	*currCmd;
 	t_simple_cmd	*currSimpleCmd;
+	char			*line;
+	char			**cmd;
+	t_flags			cmd_flags;
+	t_inout			in;
 }	t_cmd;
 
 typedef struct	s_env

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 09:58:09 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/30 12:26:39 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	free_command(t_commands *cmd)
 
 t_commands	*parse(char	*input)
 {
-	t_commands *cmd;
+	t_commands	*cmd;
+	t_cmd		*cenas;
 	int err;
 
 	err = 0;
@@ -83,10 +84,13 @@ t_commands	*parse(char	*input)
 		return (NULL);
 	if (!expand(cmd->tree))
 		return (NULL);
-	if (!word_split(cmd->tree))
-		err = 1;
-	if (!err)
-		unmask(cmd->tree);
-	return (cmd);
+	// // if (!word_split(cmd->tree))
+	// // 	err = 1;
+	// if (!err)
+	// 	unmask(cmd->tree);
+	cenas = initialize_struct(cmd);
+	if (!cenas)
+		return (NULL);
+	return (cenas);
 	
 }
