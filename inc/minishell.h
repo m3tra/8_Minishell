@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/10/30 12:22:49 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:12:27 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "readline.h"
 # include "history.h"
 # include "parse.h"
+# include "struct.h"
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -39,36 +40,33 @@
 # define INPUT_LEN	1000
 # define PROMPT		CLR_PURPLE"GuiSH:> "CLR_RST
 
-// // Describes a simple command and arguments
-typedef struct	s_simple_cmd
-{
-	// Available space for arguments currently preallocated
-	int		nAvailableArgs;
-	// Number of arguments
-	int		nArgs;
-	// Array of arguments
-	char	**args;
+// // // Describes a simple command and arguments
+// typedef struct	s_simple_cmd
+// {
+// 	// Available space for arguments currently preallocated
+// 	int		nAvailableArgs;
+// 	// Number of arguments
+// 	int		nArgs;
+// 	// Array of arguments
+// 	char	**args;
 
-}	t_simple_cmd;
+// }	t_simple_cmd;
 
-// // Describes a complete command with the multiple pipes if any
-// // and input/output redirection if any.
-typedef struct s_cmd {
-	int				_nAvailableSimpleCmds;
-	int				nSimpleCmds;
-	t_simple_cmd	**simpleCmds;
-	char			*_outFile;
-	char			*_inputFile;
-	char			*_errFile;
-	int				_background;
+// // // Describes a complete command with the multiple pipes if any
+// // // and input/output redirection if any.
 
-	struct t_cmd	*currCmd;
-	t_simple_cmd	*currSimpleCmd;
-	char			*line;
-	char			**cmd;
-	t_flags			cmd_flags;
-	t_inout			in;
-}	t_cmd;
+// typedef struct s_cmd
+// {
+// 	int				_nAvailableSimpleCmds;
+// 	int				nSimpleCmds;
+// 	t_simple_cmd	**simpleCmds;
+// 	char			*_outFile;
+// 	char			*_inputFile;
+// 	char			*_errFile;
+// 	int				_background;
+// 	struct t_cmd	*currCmd;
+// 	t_simple_cmd	*currSimpleCmd;
+// }				t_cmd;
 
 typedef struct	s_env
 {
@@ -92,7 +90,7 @@ typedef struct	s_global
 	char		*path;
 	char		**path_dirs;
 	char		*cwd;
-	t_cmd		fullCmd;
+	t_cmd		*fullCmd;
 	char		*input;
 	char		*infile;
 	char		*outfile;
@@ -104,29 +102,28 @@ typedef struct	s_global
 
 extern t_global	g_global;
 
-char	**split_args(char const *s);
+char		**split_args(char const *s);
 
-void	global_init(char **env);
-void	free_arr(char **arr);
-void	free_global(char *err);
+void		global_init(char **env);
+void		free_arr(char **arr);
+void		free_global(char *err);
 
-void	free_env(t_env *env_vars);
-t_env	*parse_env(char **env, int a);
+void		free_env(t_env *env_vars);
+t_env		*parse_env(char **env, int a);
 
-void	parse_path();
+void		parse_path();
 
-void	cd(void);
-void	echo(void);
-void	export(void);
-void	unset(char *var);
+void		cd(void);
+void		echo(void);
+void		export(void);
+void		unset(char *var);
 
 
-int		is_builtin(char *cmd);
-int		builtin(t_simple_cmd *sCmd);
+int			is_builtin(char *cmd);
+int			builtin(t_simple_cmd *sCmd);
 // int		builtin(char *cmd);
-pid_t	not_builtin(t_simple_cmd *sCmd);
-pid_t	execute(char *path);
-
+pid_t		not_builtin(t_simple_cmd *sCmd);
+pid_t		execute(char *path);
 
 
 // testingFuncs

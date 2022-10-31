@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 14:18:42 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 09:26:34 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/30 15:00:15 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*list_get(const char *var, t_env *env)
 	return (NULL);
 }
 
-static char	*replace_str(char *str, const char *value, int pos, int len)
+static char	*replace_str(char *str, char *value, int pos, int len)
 {
 	char	*temp1;
 	char	*temp2;
@@ -48,7 +48,7 @@ static char	*replace_str(char *str, const char *value, int pos, int len)
 	return (temp1);
 }
 
-static int	replace(char **str, int start, t_cmd *cmd, int i, int j)
+static int	replace(char **str, int start, t_cenas *cmd, int i, int j)
 {
 	char	*s;
 	char	*value;
@@ -57,7 +57,7 @@ static int	replace(char **str, int start, t_cmd *cmd, int i, int j)
 	i = start;
 	s = *str;
 	if (s[i] == '?' || (s[i] - 132) == '?')
-		cmd->cmd_flags |= 2;
+		cmd->cmd_flags->question = 1;
 	if (s[i] == '?' || (s[i] - 132) == '?')
 		return (0);
 	while (ft_isalnum(s[i]) || (s[i]) == '_' || ft_isalnum(s[i] - 132) ||
@@ -68,7 +68,7 @@ static int	replace(char **str, int start, t_cmd *cmd, int i, int j)
 		return (0);
 	var = ft_substr(s, start, i);
 	unmask_str(var);
-	value = list_get(var, g_mini.env);
+	value = list_get(var, g_global.env);
 	free(var);
 	if (!value)
 		return (0);
@@ -78,7 +78,7 @@ static int	replace(char **str, int start, t_cmd *cmd, int i, int j)
 	return (j);
 }
 
-static char *expand_cmd(char *s, t_cmd *cmd)
+static char *expand_cmd(char *s, t_cenas *cmd)
 {
 	int i;
 	int q;
@@ -103,10 +103,10 @@ static char *expand_cmd(char *s, t_cmd *cmd)
 
 int	expand(t_tree *t)
 {
-	t_cmd	*cmd;
+	t_cenas	*cmd;
 	int		i;
 
-	cmd = (t_cmd *)t->content;
+	cmd = (t_cenas *)t->content;
 	if (cmd)
 	{
 		cmd->line = expand_cmd(cmd->line, cmd);

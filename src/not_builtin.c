@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   not_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 01:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/10/30 11:34:34 by fporto           ###   ########.fr       */
+/*   Updated: 2022/10/30 15:15:54 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ pid_t	execute(char *path)
 	pid_t	pid;
 	t_simple_cmd	*currSimpleCmd;
 
-	currSimpleCmd = g_global.fullCmd.currSimpleCmd;
+	currSimpleCmd = g_global.fullCmd->currSimpleCmd;
 	pid = fork();
 	if (pid == -1)
 		free_global(CLR_RED"Failed fork"CLR_RST);

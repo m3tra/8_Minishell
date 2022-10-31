@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 16:45:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/22 17:36:19 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/30 13:43:13 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static char	*lstjoin(t_list *l)
 	return (ret);
 }
 
-int	wild(int i, char **s, t_cmd *cmd, int norm)
+int	wild(int i, char **s, t_cenas *cmd, int norm)
 {
 	int		start;
 	int		end;

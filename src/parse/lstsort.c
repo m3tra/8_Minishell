@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_split.c                                       :+:      :+:    :+:   */
+/*   lstsort.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 16:48:33 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 16:03:19 by fheaton-         ###   ########.fr       */
+/*   Created: 2022/10/30 16:17:41 by fheaton-          #+#    #+#             */
+/*   Updated: 2022/10/30 16:18:35 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-int	word_split(t_tree *t)
+void	lstsort(t_list **l)
 {
-	t_cenas	*cmd;
-	int		i;
+	t_list	*aux;
+	void	*tmp;
 
-	cmd = (t_cenas *)t->content;
-	if (cmd)
-		cmd->cmd = ft_split(cmd->line, ' ');
-	i = 0;
-	while (i < t->lcount)
-		if (!word_split(t->leafs[i++]))
-			return (0);
-	return (1);
+	aux = *l;
+	if (!aux)
+		return ;
+	while (aux->next)
+	{
+		if (ft_strncmp(aux->content, aux->next->content,
+				ft_strlen(aux->content)) <= 0)
+		{
+			aux = aux->next;
+			continue ;
+		}
+		tmp = aux->content;
+		aux->content = aux->next->content;
+		aux->next->content = tmp;
+		aux = *l;
+	}
 }

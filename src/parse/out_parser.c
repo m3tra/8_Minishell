@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 00:07:05 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 11:40:21 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/30 15:58:52 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	ft_isspecial(char a)
 	return (!!ft_strchr(" \t\n\v\f\r<>$\"\'&|()", a));
 }
 
-static int	input(char *str, t_cmd *cmd, int heredoc)
+static int	input(char *str, t_cenas *cmd, int heredoc)
 {
 	int		j;
 	int		k;
-	t_list	list;
+	t_list	*list;
 	char	*in;
 
 	k = 0;
@@ -48,7 +48,7 @@ static int	input(char *str, t_cmd *cmd, int heredoc)
 	return (k + heredoc + !!heredoc);
 }
 
-static int	output(char *str, t_cmd *cmd, int append)
+static int	output(char *str, t_cenas *cmd, int append)
 {
 	int		j;
 	int		spc;
@@ -76,10 +76,10 @@ static int	output(char *str, t_cmd *cmd, int append)
 		ft_lstadd_back(&cmd->in.output, list);
 	cmd->in.out = list;
 	ft_memset(str - (1 + !!append), ' ', spc + j + 1 + !!append);
-	return (spc + j + !!append)
+	return (spc + j + !!append);
 }
 
-static int	parse_in_out_cmd(t_cmd *cmd)
+static int	parse_in_out_cmd(t_cenas *cmd)
 {
 	char	q;
 	char	dq;
@@ -124,10 +124,10 @@ static int	parse_in_out_cmd(t_cmd *cmd)
 
 int	parse_in_out(t_tree *tree)
 {
-	t_cmd	*cmd;
+	t_cenas	*cmd;
 	int		i;
 
-	cmd = (t_cmd *)tree->content;
+	cmd = (t_cenas *)tree->content;
 	if (cmd)
 		if (!parse_in_out_cmd(cmd))
 			return (0);

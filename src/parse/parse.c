@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 12:26:39 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:27:59 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	free_in_out(void *v)
 {
-	t_cmd	*cmd;
+	t_cenas	*cmd;
 
 	if	(!v)
 		return ;
-	cmd = (t_cmd *)v;
+	cmd = (t_cenas *)v;
 	if (cmd->in.input)
 		ft_lstclear(&cmd->in.input, free);
 	if (cmd->in.output)
@@ -36,12 +36,12 @@ static void	free_in_out(void *v)
 
 static void	free_cmd(void *v)
 {
-	t_cmd	*cmd;
+	t_cenas	*cmd;
 	int		i;
 
 	if	(!v)
 		return ;
-	cmd = (t_cmd *)v;
+	cmd = (t_cenas *)v;
 	if (cmd->line)
 		free(cmd->line);
 	i = -1;
@@ -52,7 +52,7 @@ static void	free_cmd(void *v)
 		free(cmd->cmd);
 	}
 	if (cmd->cmd_flags)
-		free(cmd->cmd_flags)
+		free(cmd->cmd_flags);
 	if (cmd->in.input || cmd->in.output || cmd->in.heredoc ||
 	 cmd->in.append || cmd->in.in || cmd->in.out)
 	 	free_in_out(v);
@@ -62,11 +62,11 @@ static void	free_cmd(void *v)
 void	free_command(t_commands *cmd)
 {
 	free(cmd->line);
-	ft_treeclear(cmd->tree, free_cmd);
+	treeclear(cmd->tree, free_cmd);
 	free(cmd);
 }
 
-t_commands	*parse(char	*input)
+t_cmd	*parse(char	*input)
 {
 	t_commands	*cmd;
 	t_cmd		*cenas;
@@ -77,7 +77,7 @@ t_commands	*parse(char	*input)
 	if (!cmd)
 		return (NULL);
 	cmd->tree = treenew(NULL);
-	cmd->line = parse_q(ft_strdup(input), 0, cmd);
+	cmd->line = parse_q(ft_strdup(input), 0);
 	if ((split_cmd(cmd->tree, cmd->line, 0) - 1) == (int)ft_strlen(cmd->line))
 		return (NULL);
 	if (!parse_in_out(cmd->tree))
@@ -92,5 +92,4 @@ t_commands	*parse(char	*input)
 	if (!cenas)
 		return (NULL);
 	return (cenas);
-	
 }

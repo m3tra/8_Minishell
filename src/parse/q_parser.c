@@ -6,11 +6,11 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:48:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/22 18:07:23 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:27:43 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parse.h"
 
 int	unmask_str(char *str)
 {
@@ -21,20 +21,20 @@ int	unmask_str(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] >= 132);
-			str[i] -= 132;
-		if (str [i] == D)
-			str[i] = '$';
+		// if (str[i] >= 132)
+		// 	str[i] -= 132;
+		// if (str[i] == D)
+		// 	str[i] = '$';
 	}
 	return (1);
 }
 
 int	unmask(t_tree *t)
 {
-	t_cmd	*cmd;
+	t_cenas	*cmd;
 	int		i;
 
-	cmd = (t_cmd *)t->content;
+	cmd = (t_cenas *)t->content;
 	i = -1;
 	if (cmd && cmd->line)
 		unmask_str(cmd->line);
@@ -65,55 +65,55 @@ static char	*remove_q(char *str, int count)
 	return (new);
 }
 
-char	*parse_q(char *str, int count, t_commands *cmd)
+char	*parse_q(char *str, int count)
 {
-	int		q;
-	int		dq;
-	int		skip;
-	int 	in_var;
-	char	*str2;
+	int	q;
+	int	dq;
+	int	skip;
+	int in_var;
+	int	i;
 
 	q = 0;
 	dq = 0;
 	in_var = 0;
-	str2 = str - 1;
-	while(*++str2)
+	i = -1;
+	while(str[++i])
 	{
 		skip = 0;
-		if (*str2 == '\'' && !dq)
+		if (str[i] == '\'' && !dq)
 		{
 			q = !q;
 			skip = !skip;
 			count++;
 		}
-		if (*str2 == '\"' && !q)
+		if (str[i] == '\"' && !q)
 		{
 			dq = !dq;
 			skip = !skip;
 			count++;
 		}
-		if (*str2 == '$' && !q)
+		if (str[i] == '$' && !q)
 			in_var = 1;
-		else if (ft_strchr(" \'\"\\;&|", *str2))
+		else if (ft_strchr(" \'\"\\;&|", str[i]))
 			in_var = 0;
-		else if (*str2 == '$' && q)
-			*str2 = 128;
-		else if ((*str2 == '\\') && !q)
+		else if (str[i] == '$' && q)
+			str[i] = 128;
+		else if ((str[i] == '\\') && !q)
 		{
-			if (ft_strchar("\\\"$", *(str2 + 1)))
+			if (ft_strchr("\\\"$", str[i + 1]))
 			{
-				str2++;
+				str++;
 				count++;
-				if (*(str2 + 1) == '$')
-					*str2 = D;
-				else if (*(str2 + 1) == '\"')
-					*str2 = DQ;
-				else if (*(str2 + 1) == '\\')
-					*str2 = B;
+				if (str[i + 1] == '$')
+					str[i] = D;
+				else if (str[i + 1] == '\"')
+					str[i] = DQ;
+				else if (str[i + 1] == '\\')
+					str[i] = B;
 			}
 		}
-		else (*str2 < 128 && (q || dq) && !skip)
-			*str2 += 132;
+		else if (str[i] < 128 && (q || dq) && !skip)
+			str[i] += 132;
 	}
 	if (q || dq)
 		return (NULL);
