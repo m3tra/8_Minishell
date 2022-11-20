@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:48:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 16:27:43 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/20 00:49:06 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	unmask_str(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		// if (str[i] >= 132)
-		// 	str[i] -= 132;
-		// if (str[i] == D)
-		// 	str[i] = '$';
+		if (str[i] <= -5)
+			str[i] *= -1;
+		if (str[i] == D)
+			str[i] = '$';
 	}
 	return (1);
 }
@@ -97,7 +97,7 @@ char	*parse_q(char *str, int count)
 		else if (ft_strchr(" \'\"\\;&|", str[i]))
 			in_var = 0;
 		else if (str[i] == '$' && q)
-			str[i] = 128;
+			str[i] = D;
 		else if ((str[i] == '\\') && !q)
 		{
 			if (ft_strchr("\\\"$", str[i + 1]))
@@ -112,11 +112,10 @@ char	*parse_q(char *str, int count)
 					str[i] = B;
 			}
 		}
-		else if (str[i] < 128 && (q || dq) && !skip)
-			str[i] += 132;
+		else if (str[i] <= 127 && (q || dq) && !skip)
+			str[i] *= -1;
 	}
 	if (q || dq)
 		return (NULL);
 	return (remove_q(str, count));
 }
-

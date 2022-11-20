@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 16:27:59 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:03:02 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ t_cmd	*parse(char	*input)
 		return (NULL);
 	if (!expand(cmd->tree))
 		return (NULL);
-	// // if (!word_split(cmd->tree))
-	// // 	err = 1;
-	// if (!err)
-	// 	unmask(cmd->tree);
+	if (!word_split(cmd->tree))
+		err = 1;
+	if (!err)
+		unmask(cmd->tree);
 	cenas = initialize_struct(cmd);
 	if (!cenas)
 		return (NULL);

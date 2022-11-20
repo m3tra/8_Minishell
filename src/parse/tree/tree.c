@@ -6,18 +6,18 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 18:58:32 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 15:59:49 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:05:32 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parse.h"
 
 void	*ft_realloc(void *ptr, size_t osize, size_t nsize)
 {
 	char	*ret;
 
 	if (!ptr)
-		return (ft_malloc(nsize));
+		return (malloc(nsize));
 	if (!nsize)
 		free(ptr);
 	if (!nsize)

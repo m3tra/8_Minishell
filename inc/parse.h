@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:03:59 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 16:28:11 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/20 00:55:59 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "minishell.h"
 # include "struct.h"
 
-# define DEL 131
-# define B 130
-# define DQ 129
-# define D 128
+# define DEL -4
+# define B -3
+# define DQ -2
+# define D -1
 
 /**
  * flags: flags for each specific command (refer to cmd)
@@ -105,9 +105,11 @@ int			parse_in_out(t_tree *tree);
 int			expand(t_tree *t);
 int			word_split(t_tree *t);
 int			unmask(t_tree *t);
+int			unmask_str(char *str);
 t_cmd		*parse(char	*input);
 t_cmd		*initialize_struct(t_commands *cmd);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
+int			wild(int i, char **s, t_cenas *cmd, int norm);
 
 #endif

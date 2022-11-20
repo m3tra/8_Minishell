@@ -6,11 +6,11 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 14:18:42 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 15:00:15 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/20 00:55:08 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parse.h"
 
 char	*list_get(const char *var, t_env *env)
 {
@@ -68,7 +68,7 @@ static int	replace(char **str, int start, t_cenas *cmd, int i, int j)
 		return (0);
 	var = ft_substr(s, start, i);
 	unmask_str(var);
-	value = list_get(var, g_global.env);
+	value = list_get(var, g_global.env_list);
 	free(var);
 	if (!value)
 		return (0);
@@ -90,7 +90,7 @@ static char *expand_cmd(char *s, t_cenas *cmd)
 	while (s[++i])
 	{
 		if (s[i] == '\'')
-			q != q;
+			q = !q;
 		if (q)
 			continue;
 		if (s[i] == D)
