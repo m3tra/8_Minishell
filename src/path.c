@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 00:53:27 by fporto            #+#    #+#             */
-/*   Updated: 2022/07/18 18:45:18 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 15:46:22 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,13 +150,12 @@ char	**isolate_strings(char *str, size_t nb_colons)
 	return (ret);
 }
 
-void	parse_path()
+void	parse_path(void)
 {
 	char	**ret;
 	// char	*path_var;
 	// int		current_colon;
 	// int		j;
-
 	char	*orig_path;
 	// size_t	path_len;
 	size_t	nb_colons;

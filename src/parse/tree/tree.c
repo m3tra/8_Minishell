@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 18:58:32 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/20 01:05:32 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:04:52 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_tree	*treenew(void *content)
 	ret = ft_calloc(1, sizeof(t_tree));
 	if (!ret)
 		return (NULL);
-	ret->content = content;
+	ret->cenas = content;
 	return (ret);
 }
 
@@ -60,7 +60,7 @@ int	treeclear(t_tree *t, void (*del)(void *))
 {
 	if (!t)
 		return (0);
-	del(t->content);
+	del(t->cenas);
 	while (t->lcount)
 		treeclear(t->leafs[--t->lcount], del);
 	free(t->leafs);

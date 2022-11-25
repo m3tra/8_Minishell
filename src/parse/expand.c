@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 14:18:42 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/20 00:55:08 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:43:52 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	replace(char **str, int start, t_cenas *cmd, int i, int j)
 		cmd->cmd_flags->question = 1;
 	if (s[i] == '?' || (s[i] - 132) == '?')
 		return (0);
-	while (ft_isalnum(s[i]) || (s[i]) == '_' || ft_isalnum(s[i] - 132) ||
+	while (ft_isalnum(s[i]) || (s[i]) == '_' || ft_isalnum(s[i] - 132) || \
 		(s[i] - 132) == '_')
 		i++;
 	i -= start;
@@ -78,10 +78,10 @@ static int	replace(char **str, int start, t_cenas *cmd, int i, int j)
 	return (j);
 }
 
-static char *expand_cmd(char *s, t_cenas *cmd)
+static char	*expand_cmd(char *s, t_cenas *cmd)
 {
-	int i;
-	int q;
+	int	i;
+	int	q;
 
 	i = -2;
 	q = 0;
@@ -92,7 +92,7 @@ static char *expand_cmd(char *s, t_cenas *cmd)
 		if (s[i] == '\'')
 			q = !q;
 		if (q)
-			continue;
+			continue ;
 		if (s[i] == D)
 			i += replace(&s, i + 1, cmd, 0, 0);
 		else if (s[i] == '*')
@@ -101,21 +101,21 @@ static char *expand_cmd(char *s, t_cenas *cmd)
 	return (s);
 }
 
-int	expand(t_tree *t)
+int	expand(t_tree *tree)
 {
-	t_cenas	*cmd;
+	t_cenas	*cenas;
 	int		i;
 
-	cmd = (t_cenas *)t->content;
-	if (cmd)
+	cenas = tree->cenas;
+	if (cenas)
 	{
-		cmd->line = expand_cmd(cmd->line, cmd);
-		if (!cmd->line)
+		cenas->line = expand_cmd(cenas->line, cenas);
+		if (!cenas->line)
 			return (0);
 	}
 	i = 0;
-	while (i < t->lcount)
-		if (!expand(t->leafs[i++]))
+	while (i < tree->lcount)
+		if (!expand(tree->leafs[i++]))
 			return (0);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/20 01:03:02 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:41:33 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	free_in_out(void *v)
 {
 	t_cenas	*cmd;
 
-	if	(!v)
+	if (!v)
 		return ;
 	cmd = (t_cenas *)v;
 	if (cmd->in.input)
@@ -31,7 +31,6 @@ static void	free_in_out(void *v)
 		ft_lstclear(&cmd->in.in, free);
 	if (cmd->in.out)
 		ft_lstclear(&cmd->in.out, free);
-
 }
 
 static void	free_cmd(void *v)
@@ -39,7 +38,7 @@ static void	free_cmd(void *v)
 	t_cenas	*cmd;
 	int		i;
 
-	if	(!v)
+	if (!v)
 		return ;
 	cmd = (t_cenas *)v;
 	if (cmd->line)
@@ -53,9 +52,9 @@ static void	free_cmd(void *v)
 	}
 	if (cmd->cmd_flags)
 		free(cmd->cmd_flags);
-	if (cmd->in.input || cmd->in.output || cmd->in.heredoc ||
-	 cmd->in.append || cmd->in.in || cmd->in.out)
-	 	free_in_out(v);
+	if (cmd->in.input || cmd->in.output || cmd->in.heredoc || \
+		cmd->in.append || cmd->in.in || cmd->in.out)
+		free_in_out(v);
 	free(v);
 }
 
@@ -70,7 +69,7 @@ t_cmd	*parse(char	*input)
 {
 	t_commands	*cmd;
 	t_cmd		*cenas;
-	int err;
+	int			err;
 
 	err = 0;
 	cmd = check_input(input);

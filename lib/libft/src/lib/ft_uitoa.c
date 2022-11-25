@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 19:38:22 by fporto            #+#    #+#             */
-/*   Updated: 2022/03/09 16:34:36 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 15:26:47 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*cat(char *str, long number, size_t i)
 		str[i] = (number % 10) + '0';
 		number /= 10;
 		if (i == 0)
-			break;
+			break ;
 		i--;
 	}
 	return (str);

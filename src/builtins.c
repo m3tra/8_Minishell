@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:20 by fporto            #+#    #+#             */
-/*   Updated: 2022/10/30 11:35:36 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 15:38:00 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	is_builtin(char *cmd)
 		|| !ft_strcmp(cmd, "env"));
 }
 
-// int	builtin(char *cmd)
 int	builtin(t_simple_cmd *sCmd)
 {
 	t_env	*tmp;

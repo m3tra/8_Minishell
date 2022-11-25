@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkinput.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 18:13:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/22 18:13:05 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:37:22 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	check_qparen(const char *str, char q, char text, char dq, int i)
 static int	check_ops(const char *str, char q, char text, char dq, int i)
 {
 	int	paren;
-	
+
 	paren = 0;
 	while (str[++i])
 	{
@@ -87,7 +87,7 @@ static int	check_ops(const char *str, char q, char text, char dq, int i)
 
 t_commands	*check_input(const char *str)
 {
-	t_commands *cmd;
+	t_commands	*cmd;
 
 	cmd = ft_calloc(1, sizeof(t_commands));
 	if (!cmd)

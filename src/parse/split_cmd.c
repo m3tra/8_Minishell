@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 16:45:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 13:42:48 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:47:53 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ static void	*newcmd(char *key, char *c)
 	else if (!ft_strncmp(key, "||", 2))
 		cmd_flags->or = 1;
 	else if (*key == ')' || *key == '\0')
-		cmd_flags->endList = 1;
+		cmd_flags->end_list = 1;
 	else if (*key == ';')
-		cmd_flags->resLogic += 1;
+		cmd_flags->res_logic += 1;
 	else if (*key == '|')
 		cmd_flags->pipe = 1;
-	if (cmd_flags->and != 0 || cmd_flags->or != 0 || cmd_flags->endList != 0 ||
-	 cmd_flags->resLogic != 0 || cmd_flags->pipe != 0)
+	if (cmd_flags->and != 0 || cmd_flags->or != 0 || cmd_flags->end_list != 0 \
+		|| cmd_flags->res_logic != 0 || cmd_flags->pipe != 0)
 		cmd->cmd_flags = cmd_flags;
 	else
 		free (cmd_flags);
@@ -44,8 +44,8 @@ static void	*newcmd(char *key, char *c)
 
 int	split_cmd(t_tree *tree, char *line, int i)
 {
-	int j;
-	
+	int	j;
+
 	j = i;
 	while (j >= 0 && line[i] && line[i] != ')')
 		((((line[i] == '&') || (line[i] == '|')) && (line[i] == line[i + 1]))

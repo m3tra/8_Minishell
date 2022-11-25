@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   not_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 01:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/10/30 15:15:54 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:45:45 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 // Executes "path" executable and returns process PID
 pid_t	execute(char *path)
 {
-	pid_t	pid;
+	pid_t			pid;
 	t_simple_cmd	*currSimpleCmd;
 
-	currSimpleCmd = g_global.fullCmd->currSimpleCmd;
+	currSimpleCmd = g_global.full_cmd->curr_simple_cmd;
 	pid = fork();
 	if (pid == -1)
 		free_global(CLR_RED"Failed fork"CLR_RST);

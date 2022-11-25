@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 00:07:05 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 15:58:52 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:42:17 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	output(char *str, t_cenas *cmd, int append)
 	return (spc + j + !!append);
 }
 
-static int	parse_in_out_cmd(t_cenas *cmd)
+static int	parse_in_out_cmd(t_cenas *cenas)
 {
 	char	q;
 	char	dq;
@@ -88,7 +88,13 @@ static int	parse_in_out_cmd(t_cenas *cmd)
 
 	q = 0;
 	dq = 0;
-	str = (char *)cmd->line;
+	str = cenas->line;
+//debug
+	if (str)
+		printf("cenas->line(%ld): %s\n", ft_strlen(str), str);
+	else
+		printf("cenas->line: empty\n");
+
 	while (str)
 	{
 		if (*str == '\'' && !dq)
@@ -98,20 +104,20 @@ static int	parse_in_out_cmd(t_cenas *cmd)
 		if (q || dq)
 			str++;
 		if (q || dq)
-			continue;
+			continue ;
 		if (*str == '<')
 		{
 			if (*str + 1 == '<')
-				i = input(str + 2, cmd, 1);
+				i = input(str + 2, cenas, 1);
 			else
-				(i = input(str + 1, cmd, 0));
+				(i = input(str + 1, cenas, 0));
 		}
 		else if (*str == '>')
 		{
 			if (*str + 1 == '>')
-				i = output(str + 2, cmd, 1);
+				i = output(str + 2, cenas, 1);
 			else
-				i = output(str + 1, cmd, 0);
+				i = output(str + 1, cenas, 0);
 		}
 		else
 			i = 0;
@@ -124,12 +130,14 @@ static int	parse_in_out_cmd(t_cenas *cmd)
 
 int	parse_in_out(t_tree *tree)
 {
-	t_cenas	*cmd;
+	t_cenas	*cenas;
 	int		i;
 
-	cmd = (t_cenas *)tree->content;
-	if (cmd)
-		if (!parse_in_out_cmd(cmd))
+	print_tree(tree);
+
+	cenas = tree->cenas;
+	if (cenas)
+		if (!parse_in_out_cmd(cenas))
 			return (0);
 	i = 0;
 	while (i < tree->lcount)

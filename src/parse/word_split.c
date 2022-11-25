@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   word_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:48:33 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/10/30 16:03:19 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 14:54:09 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-int	word_split(t_tree *t)
+int	word_split(t_tree *tree)
 {
-	t_cenas	*cmd;
+	t_cenas	*cenas;
 	int		i;
 
-	cmd = (t_cenas *)t->content;
-	if (cmd)
-		cmd->cmd = ft_split(cmd->line, ' ');
+	cenas = tree->cenas;
+	if (cenas)
+		cenas->cmd = ft_split(cenas->line, ' ');
 	i = 0;
-	while (i < t->lcount)
-		if (!word_split(t->leafs[i++]))
+	while (i < tree->lcount)
+		if (!word_split(tree->leafs[i++]))
 			return (0);
 	return (1);
 }

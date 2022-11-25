@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:03:59 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/20 00:55:59 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:32:33 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@
 
 /**
  * flags: flags for each specific command (refer to cmd)
- * 
+ *
  * question: at least one argument/cmd needs to expand exit code
  * and: cmd is to be executed before a &&.
  * or: cmd is to be executed before a ||.
- * endList: cmd is at the end of a list.
- * resLogic: cmd is to be executed before a ; reseting the logic.
+ * end_list: cmd is at the end of a list.
+ * res_logic: cmd is to be executed before a ; reseting the logic.
  * pipe: input piped to next command.
  */
 
-typedef	struct s_flags
+typedef struct s_flags
 {
-	int question;
+	int	question;
 	int	and;
 	int	or;
-	int	endList;
-	int resLogic;
+	int	end_list;
+	int	res_logic;
 	int	pipe;
 }				t_flags;
 
@@ -46,7 +46,7 @@ typedef	struct s_flags
  * in: pointer to the actual input node
  * input: Input for command if any. NULL for stdin otherwise contains path to
  *   file.
- * heredoc: Input for command if any. 
+ * heredoc: Input for command if any.
  * 			If heredoc the string is specified here.
  * out: pointer to the actual output node
  * output: Output for command if any. NULL for stdout otherwise contains path to
@@ -72,7 +72,6 @@ typedef struct s_inout
  * in: input
  */
 
-
 typedef struct s_cenas
 {
 	char	*line;
@@ -83,7 +82,7 @@ typedef struct s_cenas
 
 typedef struct s_tree
 {
-	void			*content;
+	t_cenas			*cenas;
 	int				lcount;
 	struct s_tree	**leafs;
 }				t_tree;
@@ -111,5 +110,8 @@ t_cmd		*initialize_struct(t_commands *cmd);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
 int			wild(int i, char **s, t_cenas *cmd, int norm);
+
+//testing funcs
+void		print_tree(t_tree *tree);
 
 #endif

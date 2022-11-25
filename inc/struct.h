@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 16:10:13 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/20 00:59:15 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:36:50 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,31 @@
 
 # include "minishell.h"
 
-// // Describes a simple command and arguments
-typedef struct	s_simple_cmd
+// Describes a simple command and arguments
+typedef struct s_simple_cmd
 {
-	// Available space for arguments currently preallocated
-	int						nAvailableArgs;
 	// Number of arguments
-	int						nArgs;
+	int						n_args;
 	// Array of arguments
 	char					**args;
 
 	// mudar referencia da struct IMPORTANTE
-	char					*_outFile;
-	char					*_inputFile;
-	char					*_errFile;
+	char					*_out_file;
+	char					*_input_file;
+	char					*_err_file;
 	int						append;
 	int						heredoc;
 }	t_simple_cmd;
 
-// // Describes a complete command with the multiple pipes if any
-// // and input/output redirection if any.
+// Describes a complete command with the multiple pipes if any
+// and input/output redirection if any.
 
 typedef struct s_cmd
 {
-	int				_nAvailableSimpleCmds;
-	int				nSimpleCmds;
-	t_simple_cmd	**simpleCmds;
+	int				n_simple_cmds;
+	t_simple_cmd	**simple_cmds;
 	int				_background;
-	t_simple_cmd	*currSimpleCmd;
+	t_simple_cmd	*curr_simple_cmd;
 }				t_cmd;
 
 #endif

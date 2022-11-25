@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   q_parser.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:48:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/20 00:49:06 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:39:07 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	unmask_str(char *str)
 	return (1);
 }
 
-int	unmask(t_tree *t)
+int	unmask(t_tree *tree)
 {
 	t_cenas	*cmd;
 	int		i;
 
-	cmd = (t_cenas *)t->content;
+	cmd = tree->cenas;
 	i = -1;
 	if (cmd && cmd->line)
 		unmask_str(cmd->line);
@@ -43,8 +43,8 @@ int	unmask(t_tree *t)
 			if (!unmask_str(cmd->cmd[i]))
 				return (0);
 	i = 0;
-	while (i < t->lcount)
-		if (!unmask(t->leafs[i++]))
+	while (i < tree->lcount)
+		if (!unmask(tree->leafs[i++]))
 			return (0);
 	return (1);
 }
@@ -70,14 +70,14 @@ char	*parse_q(char *str, int count)
 	int	q;
 	int	dq;
 	int	skip;
-	int in_var;
+	int	in_var;
 	int	i;
 
 	q = 0;
 	dq = 0;
 	in_var = 0;
 	i = -1;
-	while(str[++i])
+	while (str[++i])
 	{
 		skip = 0;
 		if (str[i] == '\'' && !dq)

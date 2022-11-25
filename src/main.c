@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/10/30 15:18:35 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:52:10 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ static void	sigint_action(int signal)
 
 static void	read_command(void)
 {
-	char	*tmp;printf(CLR_BLUE"[%s]\n"CLR_RST, g_global.cwd);
+	char	*tmp;
+	printf(CLR_BLUE"[%s]\n"CLR_RST, g_global.cwd);
 	tmp = ft_strdup(PROMPT);
 	while ("drip")
 	{
 		g_global.input = readline(tmp);
 		if (g_global.input && ft_strlen(g_global.input) != 0)
-			break;
+			break ;
 		else if (g_global.input)
 			free(g_global.input);
 		if (!g_global.input || g_global.exit)
@@ -84,8 +85,8 @@ static void	read_command(void)
 // 	t_simple_cmd	**simpleCmds;
 // 	t_simple_cmd	*currSimpleCmd;
 
-// 	nSimpleCommands = g_global.fullCmd.nSimpleCmds;
-// 	simpleCmds = g_global.fullCmd.simpleCmds;
+// 	nSimpleCommands = g_global.full_cmd.n_simple_cmds;
+// 	simpleCmds = g_global.full_cmd.simpleCmds;
 // 	for (int i = 0; i < nSimpleCommands; i++)
 // 	{
 // 		currSimpleCmd = simpleCmds[i];
@@ -146,18 +147,16 @@ int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	char	*cmd;
+	char			*cmd;
 
+	t_cmd			*t_cmd;
+	t_simple_cmd	*s_cmd;
 
-	t_cmd			*tCmd;
-	t_simple_cmd	*sCmd;
-
-	sCmd = malloc(sizeof(t_simple_cmd));
-	sCmd->args = malloc(sizeof(char *));
-	tCmd = malloc (sizeof(t_cmd));
-	tCmd->currSimpleCmd = sCmd;
-	g_global.fullCmd = tCmd;
-
+	s_cmd = malloc(sizeof(t_simple_cmd));
+	s_cmd->args = malloc(sizeof(char *));
+	t_cmd = malloc (sizeof(t_cmd));
+	t_cmd->curr_simple_cmd = s_cmd;
+	g_global.full_cmd = t_cmd;
 
 	global_init(env);
 	signal(SIGQUIT, SIG_IGN);		// Ctrl + \		//
@@ -166,26 +165,23 @@ int	main(int argc, char **argv, char **env)
 	{
 		read_command();
 		cmd = g_global.argv[0];
-		sCmd->args[0] = cmd;
+		s_cmd->args[0] = cmd;
 		if (!parse(g_global.input))
-			continue;
+			continue ;
 		if (!ft_strcmp(cmd, "cd")){
 			cd();
-			continue;
+			continue ;
 		}
 		else if (!ft_strcmp(cmd, "exit"))
 			break ;
-		if (!builtin(sCmd))
-			not_builtin(sCmd);
+		if (!builtin(s_cmd))
+			not_builtin(s_cmd);
 		// printf("test\n");
 		wait(NULL);
 	}
 
-
-	free(sCmd->args);
-	free(sCmd);
-
-
+	free(s_cmd->args);
+	free(s_cmd);
 
 	free_global(NULL);
 }
