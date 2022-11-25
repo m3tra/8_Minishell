@@ -3,43 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 16:45:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:47:53 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 20:06:43 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-static void	*newcmd(char *key, char *c)
+static void	*newcmd(char *key, char *line)
 {
-	t_cenas	*cmd;
-	t_flags	*cmd_flags;
+	t_cenas	*cenas;
 
-	cmd = ft_calloc(1, sizeof(t_cenas));
-	if (!cmd)
+	cenas = ft_calloc(1, sizeof(t_cenas));
+	if (!cenas)
 		return (NULL);
-	cmd_flags = ft_calloc(1, sizeof(t_flags));
-	if (!cmd_flags)
-		return (NULL);
-	cmd->line = c;
-	if (!ft_strncmp(key, "&&", 2))
-		cmd_flags->and = 1;
-	else if (!ft_strncmp(key, "||", 2))
-		cmd_flags->or = 1;
-	else if (*key == ')' || *key == '\0')
-		cmd_flags->end_list = 1;
-	else if (*key == ';')
-		cmd_flags->res_logic += 1;
-	else if (*key == '|')
-		cmd_flags->pipe = 1;
-	if (cmd_flags->and != 0 || cmd_flags->or != 0 || cmd_flags->end_list != 0 \
-		|| cmd_flags->res_logic != 0 || cmd_flags->pipe != 0)
-		cmd->cmd_flags = cmd_flags;
-	else
-		free (cmd_flags);
-	return (cmd);
+	cenas->line = line;
+	((!ft_strncmp(key, "&&", 2)) && (cenas->cmd_flags |= 0x04))
+	|| ((!ft_strncmp(key, "||", 2)) && (cenas->cmd_flags |= 0x08))
+	|| (((*key == ')') || (*key == '\0')) && (cenas->cmd_flags |= 0x10))
+	|| ((*key == ';') && (cenas->cmd_flags |= 0x20))
+	|| ((*key == '|') && (cenas->cmd_flags |= 0x40));
+	return (cenas);
 }
 
 int	split_cmd(t_tree *tree, char *line, int i)
@@ -62,7 +48,7 @@ int	split_cmd(t_tree *tree, char *line, int i)
 			&& (j = ++i))
 		|| (i++);
 	if (j >= 0 && i - j > 0)
-		treeadd(tree, newcmd(line + i, ft_substr(line, i, i - j)));
+		treeadd(tree, newcmd(line + i, ft_substr(line, j, i - j)));
 	if (j == -1 || !line[i])
 		return (i);
 	return (i + 1);

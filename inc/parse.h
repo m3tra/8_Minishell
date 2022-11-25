@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:03:59 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 16:01:02 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 17:31:20 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@
  * pipe: input piped to next command.
  */
 
-typedef struct s_flags
-{
-	int	question;
-	int	and;
-	int	or;
-	int	end_list;
-	int	res_logic;
-	int	pipe;
-}				t_flags;
+// typedef struct s_flags
+// {
+// 	int	question;
+// 	int	and;
+// 	int	or;
+// 	int	end_list;
+// 	int	res_logic;
+// 	int	pipe;
+// }				t_flags;
 
 /**
  * in: pointer to the actual input node
@@ -76,13 +76,13 @@ typedef struct s_cenas
 {
 	char	*line;
 	char	**cmd;
-	t_flags	*cmd_flags;
+	int		cmd_flags;
 	t_inout	in;
 }				t_cenas;
 
 typedef struct s_tree
 {
-	t_cenas			*cenas;
+	void			*content;
 	int				lcount;
 	struct s_tree	**leafs;
 }				t_tree;
@@ -100,7 +100,7 @@ int			treeclear(t_tree *t, void (*del)(void *));
 void		*ft_realloc(void *ptr, size_t osize, size_t nsize);
 char		*parse_q(char *str, int count);
 int			split_cmd(t_tree *tree, char *line, int i);
-int			parse_in_out(t_tree *tree);
+int			parse_op(t_tree *t);
 int			expand(t_tree *t);
 int			word_split(t_tree *t);
 int			unmask(t_tree *t);

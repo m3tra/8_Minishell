@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   q_parser.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:48:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:39:07 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 18:39:24 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ int	unmask_str(char *str)
 
 int	unmask(t_tree *tree)
 {
-	t_cenas	*cmd;
+	t_cenas	*cenas;
 	int		i;
 
-	cmd = tree->cenas;
+	cenas = (t_cenas *)tree->content;
 	i = -1;
-	if (cmd && cmd->line)
-		unmask_str(cmd->line);
-	if (cmd && cmd->cmd)
-		while (cmd->cmd[++i])
-			if (!unmask_str(cmd->cmd[i]))
+	if (cenas && cenas->line)
+		unmask_str(cenas->line);
+	if (cenas && cenas->cmd)
+		while (cenas->cmd[++i])
+			if (!unmask_str(cenas->cmd[i]))
 				return (0);
 	i = 0;
 	while (i < tree->lcount)

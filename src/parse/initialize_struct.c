@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_struct.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 16:05:03 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 20:48:01 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,20 @@ void	inout_flags(t_cenas *cmd, t_simple_cmd	*simple)
 
 int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 {
-	t_cenas	*cmd;
-	char	**args;
+	t_cenas	*cenas;
 	int		i;
 
-	cmd = tree->cenas;
+	cenas = (t_cenas *)tree->leafs[0]->content;
 	i = 0;
-	while (cmd->cmd[i])
+	while (cenas->cmd[i])
 		i++;
-	args = malloc(i * sizeof(char *));
-	if (!args)
+	simple->args = malloc(i * sizeof(char *));
+	if (!simple->args)
 		return (0);
 	i = -1;
-	while (cmd->cmd[++i])
-		simple->args[i] = ft_strdup(cmd->cmd[i]);
-	inout_flags(cmd, simple);
+	while (cenas->cmd[++i])
+		simple->args[i] = ft_strdup(cenas->cmd[i]);
+	inout_flags(cenas, simple);
 	return (1);
 }
 
@@ -62,11 +61,11 @@ t_simple_cmd	**initialize_simple(t_tree	*t)
 	t_simple_cmd	**simple;
 	int				i;
 
-	simple = malloc(t->lcount * sizeof(t_simple_cmd *));
+	simple = ft_calloc(t->lcount, sizeof(t_simple_cmd *));
 	if (!simple)
 		return (NULL);
 	i = -1;
-	while (++i < t->lcount)
+	while (++i < t->lcount - 1)
 	{
 		if (!cmd_cpy(simple[i], t->leafs[i]))
 			return (NULL);

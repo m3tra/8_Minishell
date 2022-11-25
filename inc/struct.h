@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 16:10:13 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 16:00:18 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 17:41:59 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_simple_cmd
 	char					*_err_file;
 	int						append;
 	int						heredoc;
+	void					*next;
 }	t_simple_cmd;
 
 // Describes a complete command with the multiple pipes if any

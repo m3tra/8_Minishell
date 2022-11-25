@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 16:01:35 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 20:48:51 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ static void	free_cmd(void *v)
 			free(cmd->cmd[i]);
 		free(cmd->cmd);
 	}
-	if (cmd->cmd_flags)
-		free(cmd->cmd_flags);
 	if (cmd->in.input || cmd->in.output || cmd->in.heredoc || \
 		cmd->in.append || cmd->in.in || cmd->in.out)
 		free_in_out(v);
@@ -79,12 +77,13 @@ t_full_cmd	*parse(char	*input)
 	cmd->line = parse_q(ft_strdup(input), 0);
 	if ((split_cmd(cmd->tree, cmd->line, 0) - 1) == (int)ft_strlen(cmd->line))
 		return (NULL);
-	if (!parse_in_out(cmd->tree))
+	if (!parse_op(cmd->tree))
 		return (NULL);
 	if (!expand(cmd->tree))
 		return (NULL);
 	if (!word_split(cmd->tree))
 		err = 1;
+	// print_tree(cmd->tree);
 	if (!err)
 		unmask(cmd->tree);
 	cenas = initialize_struct(cmd);

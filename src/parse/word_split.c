@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:48:33 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 14:54:09 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 20:32:29 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	word_split(t_tree *tree)
 {
 	t_cenas	*cenas;
 	int		i;
-
-	cenas = tree->cenas;
+	
+	cenas = (t_cenas *)tree->content;
 	if (cenas)
 		cenas->cmd = ft_split(cenas->line, ' ');
 	i = 0;
