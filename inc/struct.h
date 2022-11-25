@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 16:10:13 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:36:50 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:00:18 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ typedef struct s_cmd
 	t_simple_cmd	**simple_cmds;
 	int				_background;
 	t_simple_cmd	*curr_simple_cmd;
-}				t_cmd;
+}				t_full_cmd;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:03:59 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:32:33 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:01:02 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ int			expand(t_tree *t);
 int			word_split(t_tree *t);
 int			unmask(t_tree *t);
 int			unmask_str(char *str);
-t_cmd		*parse(char	*input);
-t_cmd		*initialize_struct(t_commands *cmd);
+t_full_cmd	*parse(char	*input);
+t_full_cmd	*initialize_struct(t_commands *cmd);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
 int			wild(int i, char **s, t_cenas *cmd, int norm);

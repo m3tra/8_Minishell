@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/25 15:52:10 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:02:46 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,18 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	char			*cmd;
 
-	t_cmd			*t_cmd;
+	t_full_cmd		*t_cmd;
 	t_simple_cmd	*s_cmd;
 
 	s_cmd = malloc(sizeof(t_simple_cmd));
+	if (!s_cmd)
+		return (1);
 	s_cmd->args = malloc(sizeof(char *));
-	t_cmd = malloc (sizeof(t_cmd));
+	if (!s_cmd->args)
+		return (2);
+	t_cmd = malloc (sizeof(t_full_cmd));
+	if (!t_cmd)
+		return (3);
 	t_cmd->curr_simple_cmd = s_cmd;
 	g_global.full_cmd = t_cmd;
 

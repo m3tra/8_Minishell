@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:44:14 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:05:03 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	inout_flags(t_cenas *cmd, t_simple_cmd	*simple)
 
 int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 {
-	t_cenas			*cmd;
-	char			**args;
-	int				i;
+	t_cenas	*cmd;
+	char	**args;
+	int		i;
 
 	cmd = tree->cenas;
 	i = 0;
@@ -74,11 +74,11 @@ t_simple_cmd	**initialize_simple(t_tree	*t)
 	return (simple);
 }
 
-t_cmd	*initialize_struct(t_commands *cmd)
+t_full_cmd	*initialize_struct(t_commands *cmd)
 {
-	t_cmd			*cenas;
+	t_full_cmd	*cenas;
 
-	cenas = calloc(1, sizeof(t_cmd));
+	cenas = calloc(1, sizeof(t_full_cmd));
 	if (!cenas)
 		return (NULL);
 	cenas->n_simple_cmds = cmd->tree->lcount;

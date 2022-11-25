@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/25 15:35:41 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:02:35 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,16 @@
 
 // typedef struct s_cmd
 // {
-// 	int				_nAvailableSimpleCmds;
-// 	int				n_simple_cmds;
-// 	t_simple_cmd	**simpleCmds;
-// 	char			*_out_file;
-// 	char			*_input_file;
-// 	char			*_err_file;
-// 	int				_background;
-// 	struct t_cmd	*currCmd;
-// 	t_simple_cmd	*currSimpleCmd;
-// }				t_cmd;
+// 	int					_nAvailableSimpleCmds;
+// 	int					n_simple_cmds;
+// 	t_simple_cmd		**simpleCmds;
+// 	char				*_out_file;
+// 	char				*_input_file;
+// 	char				*_err_file;
+// 	int					_background;
+// 	struct t_full_cmd	*currCmd;
+// 	t_simple_cmd		*currSimpleCmd;
+// }				t_full_cmd;
 
 typedef struct s_env
 {
@@ -90,7 +90,7 @@ typedef struct s_global
 	char		*path;
 	char		**path_dirs;
 	char		*cwd;
-	t_cmd		*full_cmd;
+	t_full_cmd	*full_cmd;
 	char		*input;
 	char		*infile;
 	char		*outfile;

@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 00:07:05 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:42:17 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 15:58:51 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,12 @@ static int	parse_in_out_cmd(t_cenas *cenas)
 	q = 0;
 	dq = 0;
 	str = cenas->line;
-//debug
-	if (str)
-		printf("cenas->line(%ld): %s\n", ft_strlen(str), str);
-	else
-		printf("cenas->line: empty\n");
+
+// //debug
+// 	if (str)
+// 		printf("cenas->line(%ld): %s\n", ft_strlen(str), str);
+// 	else
+// 		printf("cenas->line: empty\n");
 
 	while (str)
 	{
@@ -133,7 +134,7 @@ int	parse_in_out(t_tree *tree)
 	t_cenas	*cenas;
 	int		i;
 
-	print_tree(tree);
+	// print_tree(tree);
 
 	cenas = tree->cenas;
 	if (cenas)

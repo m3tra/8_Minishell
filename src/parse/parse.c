@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:41:33 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:01:35 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	free_command(t_commands *cmd)
 	free(cmd);
 }
 
-t_cmd	*parse(char	*input)
+t_full_cmd	*parse(char	*input)
 {
 	t_commands	*cmd;
-	t_cmd		*cenas;
+	t_full_cmd	*cenas;
 	int			err;
 
 	err = 0;
