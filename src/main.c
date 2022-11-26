@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/25 20:49:39 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/26 13:18:04 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, sigint_action);	// Ctrl + C
 	while ("swag")
 	{
+		update_cwd();
 		read_command();
 		cmd = g_global.argv[0];
 		s_cmd->args[0] = cmd;

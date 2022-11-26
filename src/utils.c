@@ -6,11 +6,18 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/07/19 13:59:41 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/26 13:17:34 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	update_cwd(void) {
+	ft_free(g_global.cwd);
+	g_global.cwd = getcwd(NULL, INPUT_LEN);
+	if (!g_global.cwd)
+		free_global(CLR_RED"Failed getting CWD"CLR_RST);
+}
 
 void	global_init(char **env)
 {
@@ -20,9 +27,7 @@ void	global_init(char **env)
 	// print_str_array(env);
 
 	g_global.exit = 0;
-	g_global.cwd = getcwd(NULL, INPUT_LEN);
-	if (!g_global.cwd)
-		free_global(CLR_RED"Failed getting CWD"CLR_RST);
+	update_cwd();
 	// printf("1cwd ptr: %p\ncwd cnt: %s\n", &g_global.cwd, g_global.cwd);
 	g_global.env_list = parse_env(env, -1);
 	if (!g_global.env_list)
