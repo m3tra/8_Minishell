@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_struct.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 20:48:01 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/26 14:23:57 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,16 @@ void	inout_flags(t_cenas *cmd, t_simple_cmd	*simple)
 
 int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 {
+	printf("TEST cmd_cpy\n");
+
 	t_cenas	*cenas;
 	int		i;
 
+	if (!tree->leafs)
+		printf("TEST NO LEAFS\n");
+
 	cenas = (t_cenas *)tree->leafs[0]->content;
+
 	i = 0;
 	while (cenas->cmd[i])
 		i++;
@@ -50,6 +56,9 @@ int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 	if (!simple->args)
 		return (0);
 	i = -1;
+
+	printf("test cenas->cmd[0]: %s\n", cenas->cmd[0]);
+
 	while (cenas->cmd[++i])
 		simple->args[i] = ft_strdup(cenas->cmd[i]);
 	inout_flags(cenas, simple);
@@ -58,6 +67,8 @@ int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 
 t_simple_cmd	**initialize_simple(t_tree	*t)
 {
+	printf("TEST initialize_simple\n");
+
 	t_simple_cmd	**simple;
 	int				i;
 
@@ -65,7 +76,11 @@ t_simple_cmd	**initialize_simple(t_tree	*t)
 	if (!simple)
 		return (NULL);
 	i = -1;
-	while (++i < t->lcount - 1)
+
+	printf("TEST t->lcount: %d\n", t->lcount);
+
+	// while (++i < t->lcount - 1)
+	while (++i < t->lcount)
 	{
 		if (!cmd_cpy(simple[i], t->leafs[i]))
 			return (NULL);
@@ -75,13 +90,21 @@ t_simple_cmd	**initialize_simple(t_tree	*t)
 
 t_full_cmd	*initialize_struct(t_commands *cmd)
 {
-	t_full_cmd	*cenas;
+	// printf("TEST initialize_struct\n");
+	t_full_cmd	*full_cmd;
 
-	cenas = calloc(1, sizeof(t_full_cmd));
-	if (!cenas)
+	full_cmd = calloc(1, sizeof(t_full_cmd));
+	if (!full_cmd)
 		return (NULL);
-	cenas->n_simple_cmds = cmd->tree->lcount;
-	cenas->simple_cmds = initialize_simple(cmd->tree);
-	cenas->curr_simple_cmd = *cenas->simple_cmds;
-	return (cenas);
+	full_cmd->n_simple_cmds = cmd->tree->lcount;
+
+	printf("test n_simple_cmds: %d\n", full_cmd->n_simple_cmds);
+
+	full_cmd->simple_cmds = initialize_simple(cmd->tree);
+
+	if (!full_cmd->simple_cmds)
+		printf("simple_cmds = NULL\n");
+
+	full_cmd->curr_simple_cmd = *full_cmd->simple_cmds;
+	return (full_cmd);
 }

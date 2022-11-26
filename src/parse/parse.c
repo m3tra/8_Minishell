@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 20:48:51 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/26 13:51:15 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	free_command(t_commands *cmd)
 t_full_cmd	*parse(char	*input)
 {
 	t_commands	*cmd;
-	t_full_cmd	*cenas;
+	t_full_cmd	*full_cmd;
 	int			err;
 
 	err = 0;
@@ -86,8 +86,8 @@ t_full_cmd	*parse(char	*input)
 	// print_tree(cmd->tree);
 	if (!err)
 		unmask(cmd->tree);
-	cenas = initialize_struct(cmd);
-	if (!cenas)
+	full_cmd = initialize_struct(cmd);
+	if (!full_cmd)
 		return (NULL);
-	return (cenas);
+	return (full_cmd);
 }

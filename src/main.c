@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/26 13:18:04 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/26 14:23:20 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,109 +60,102 @@ static void	read_command(void)
 	g_global.argv = split_args(g_global.input);
 }
 
-// void	handle_io(void)
-// {
-// 	char	*fileIn;
-// 	char	*fileOut;
+void	handle_io(void)
+{
+	// char	*fileIn;
+	// char	*fileOut;
 
-// 	// Save STDIN/STDOUT
-// 	int		originalFdIn = dup(STDIN_FILENO);
-// 	int		originalFdOut = dup(STDOUT_FILENO);
+	// Save STDIN/STDOUT
+	int		originalFdIn = dup(STDIN_FILENO);
+	int		originalFdOut = dup(STDOUT_FILENO);
 
-// 	// Set the initial input
-// 	int		fdIn;
-// 	// If there is a specified input file ( < *.* ) open it
-// 	// Else use default input
-// 	if (fileIn)
-// 		fdIn = open(fileIn, O_RDONLY);
-// 	else
-// 		fdIn = dup(originalFdIn);
+	// Set the initial input
+	int		fdIn;
+	// If there is a specified input file ( < *.* ) open it
+	// Else use default input
+	int		ret;
+	int		fdOut;
 
-// 	int		ret;
-// 	int		fdOut;
+	int		n_simple_cmds;
+	t_simple_cmd	**simple_cmds;
+	t_simple_cmd	*curr_simple_cmd;
 
-// 	int		nSimpleCommands;
-// 	t_simple_cmd	**simpleCmds;
-// 	t_simple_cmd	*currSimpleCmd;
+	n_simple_cmds = g_global.full_cmd->n_simple_cmds;
+	simple_cmds = g_global.full_cmd->simple_cmds;
 
-// 	nSimpleCommands = g_global.full_cmd.n_simple_cmds;
-// 	simpleCmds = g_global.full_cmd.simpleCmds;
-// 	for (int i = 0; i < nSimpleCommands; i++)
-// 	{
-// 		currSimpleCmd = simpleCmds[i];
-// 		//redirect input
-// 		dup2(fdIn, STDIN_FILENO);
-// 		close(fdIn);
-// 		//setup output
-// 		if (i == nSimpleCommands - 1)
-// 		{
-// 			// Last simple command
-// 			// If there is a specified output file ( > *.* ) open it
-// 			// Else use default output
-// 			if (fileOut)
-// 				fdOut = open(fileOut, O_RDWR | O_CREAT, 0777);
-// 			else
-// 				fdOut = dup(originalFdOut);
-// 		}
-// 		else
-// 		{
-// 			// Not last simple command
-// 			//create pipe
-// 			int fdPipe[2];
-// 			pipe(fdPipe);
-// 			fdOut = fdPipe[1];
-// 			fdIn = fdPipe[0];
-// 		}// if/else
-// 		// Redirect output
-// 		dup2(fdOut, STDOUT_FILENO);
-// 		close(fdOut);
+	printf("n_simple_cmds: %d\n", n_simple_cmds);
+	// printf("simple_cmds[0]: %d\n", simple_cmds[0]->n_args);
+	// for (int i = 0; i < n_simple_cmds; i++)
+	// 	for (int j = 0; i < simple_cmds[i]->n_args; i++)
+	// 		printf("simple_cmds[%d][%d]: %s\n", i, j, simple_cmds[i]->args[j]);
 
-// 		if (is_builtin(currSimpleCmd->args[0]))
-// 			builtin(currSimpleCmd->args[0]);
-// 		else
-// 		{
-// 			ret = not_builtin(currSimpleCmd->args[0]);
-// 			if (!ret)
-// 				free_global(CLR_RED"Command not found"CLR_RST);
-// 		}
-// 		// // Create child process
-// 		// ret = fork();
-// 		// if (ret == 0) {
-// 		// 	execvp(scmd[i].args[0], scmd[i].args);
-// 		// 	perror("execvp");
-// 		// 	_exit(1);
-// 		// }
-// 	} //  for
-// 	//restore in/out defaults
-// 	dup2(originalFdIn, STDIN_FILENO);
-// 	dup2(originalFdOut, STDOUT_FILENO);
-// 	close(originalFdIn);
-// 	close(originalFdOut);
-// 	// Wait for last command
-// 	if (ret && !g_global.background)
-// 		waitpid(ret, NULL, NULL);
-// }
+	for (int i = 0; i < n_simple_cmds; i++)
+	{
+		curr_simple_cmd = simple_cmds[i];
+		if (curr_simple_cmd->_input_file)
+			fdIn = open(curr_simple_cmd->_input_file, O_RDONLY);
+		else
+			fdIn = dup(originalFdIn);
+		//redirect input
+		dup2(fdIn, STDIN_FILENO);
+		close(fdIn);
+		//setup output
+		if (i == n_simple_cmds - 1)
+		{
+			// Last simple command
+			// If there is a specified output file ( > *.* ) open it
+			// Else use default output
+			if (curr_simple_cmd->_out_file)
+				fdOut = open(curr_simple_cmd->_out_file, O_RDWR | O_CREAT, 0777);
+			else
+				fdOut = dup(originalFdOut);
+		}
+		else
+		{
+			// Not last simple command
+			//create pipe
+			int fdPipe[2];
+			pipe(fdPipe);
+			fdOut = fdPipe[1];
+			fdIn = fdPipe[0];
+		}// if/else
+		// Redirect output
+		dup2(fdOut, STDOUT_FILENO);
+		close(fdOut);
+
+		if (is_builtin(curr_simple_cmd->args[0]))
+			builtin(curr_simple_cmd);
+		else
+		{
+			ret = not_builtin(curr_simple_cmd);
+			if (!ret)
+				free_global(CLR_RED"Command not found"CLR_RST);
+		}
+		// // Create child process
+		// ret = fork();
+		// if (ret == 0) {
+		// 	execvp(scmd[i].args[0], scmd[i].args);
+		// 	perror("execvp");
+		// 	_exit(1);
+		// }
+	} //  for
+	//restore in/out defaults
+	dup2(originalFdIn, STDIN_FILENO);
+	dup2(originalFdOut, STDOUT_FILENO);
+	close(originalFdIn);
+	close(originalFdOut);
+	// Wait for last command
+	if (ret && !g_global.background)
+		waitpid(ret, NULL, 0);
+}
 
 int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	char			*cmd;
+	// char			*cmd;
 
-	t_full_cmd		*t_cmd;
-	t_simple_cmd	*s_cmd;
-
-	s_cmd = malloc(sizeof(t_simple_cmd));
-	if (!s_cmd)
-		return (1);
-	s_cmd->args = malloc(sizeof(char *));
-	if (!s_cmd->args)
-		return (2);
-	t_cmd = malloc (sizeof(t_full_cmd));
-	if (!t_cmd)
-		return (3);
-	t_cmd->curr_simple_cmd = s_cmd;
-	g_global.full_cmd = t_cmd;
+	t_simple_cmd *curr_simple_cmd;
 
 	global_init(env);
 	signal(SIGQUIT, SIG_IGN);		// Ctrl + \		//
@@ -171,24 +164,22 @@ int	main(int argc, char **argv, char **env)
 	{
 		update_cwd();
 		read_command();
-		cmd = g_global.argv[0];
-		s_cmd->args[0] = cmd;
-		if (!parse(g_global.input))
+		// cmd = g_global.argv[0];
+		// s_cmd->args[0] = cmd;
+		g_global.full_cmd = parse(g_global.input);
+		if (!g_global.full_cmd)
 			continue ;
-		if (!ft_strcmp(cmd, "cd")){
+		if (!ft_strcmp(curr_simple_cmd->args[0], "cd")){
 			cd();
 			continue ;
 		}
-		else if (!ft_strcmp(cmd, "exit"))
+		else if (!ft_strcmp(curr_simple_cmd->args[0], "exit"))
 			break ;
-		if (!builtin(s_cmd))
-			not_builtin(s_cmd);
-		printf("test\n");
+		// if (!builtin(curr_simple_cmd->args[0]))
+		// 	not_builtin(curr_simple_cmd->args[0]);
+		handle_io();
+		curr_simple_cmd = ++*g_global.full_cmd->simple_cmds;
 		wait(NULL);
 	}
-
-	free(s_cmd->args);
-	free(s_cmd);
-
 	free_global(NULL);
 }

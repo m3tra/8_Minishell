@@ -6,13 +6,14 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/26 13:17:34 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/26 14:19:29 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_cwd(void) {
+void	update_cwd(void)
+{
 	ft_free(g_global.cwd);
 	g_global.cwd = getcwd(NULL, INPUT_LEN);
 	if (!g_global.cwd)
@@ -21,17 +22,24 @@ void	update_cwd(void) {
 
 void	global_init(char **env)
 {
+	t_full_cmd		*t_cmd;
+
 	g_global.env = env;
 
 	// printf("env:\n");
 	// print_str_array(env);
 
 	g_global.exit = 0;
-	update_cwd();
 	// printf("1cwd ptr: %p\ncwd cnt: %s\n", &g_global.cwd, g_global.cwd);
 	g_global.env_list = parse_env(env, -1);
 	if (!g_global.env_list)
 		free_global(CLR_RED"Failed env parsing"CLR_RST);
+	update_cwd();
+
+	t_cmd = malloc (sizeof(t_full_cmd));
+	if (!t_cmd)
+		free_global(CLR_RED"Failed malloc of t_cmd"CLR_RST);
+
 	parse_path();
 }
 
@@ -61,6 +69,16 @@ static void	free_exports(t_export *exports)
 	}
 }
 
+void	free_full_cmd(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < g_global.full_cmd->n_simple_cmds)
+		ft_free(g_global.full_cmd->simple_cmds[i++]);
+	ft_free(g_global.full_cmd);
+}
+
 void	free_global(char *err)
 {
 	if (g_global.env_list)
@@ -68,6 +86,7 @@ void	free_global(char *err)
 	ft_free(g_global.input);
 	ft_free(g_global.cwd);
 	free_arr(g_global.argv);
+	free_full_cmd();
 	if (g_global.exports)
 		free_exports(g_global.exports);
 	ft_free(g_global.exports);
