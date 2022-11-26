@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 16:10:13 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 17:41:59 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/26 18:19:11 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,19 @@
 typedef struct s_simple_cmd
 {
 	// Number of arguments
-	int						n_args;
+	int			n_args;
 	// Array of arguments
-	char					**args;
+	char		**args;
 
 	// mudar referencia da struct IMPORTANTE
-	char					*_out_file;
-	char					*_input_file;
-	char					*_err_file;
-	int						append;
-	int						heredoc;
-	void					*next;
+	char		*_out_file;
+	char		*_input_file;
+	char		*_err_file;
+	int			append;
+	int			heredoc;
+	void		*next;
+	t_inout		inout;
+	int			pipe;
 }	t_simple_cmd;
 
 // Describes a complete command with the multiple pipes if any

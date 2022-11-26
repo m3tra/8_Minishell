@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/26 15:29:35 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/26 18:17:23 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,33 @@
 
 void	inout_flags(t_cenas *cmd, t_simple_cmd	*simple)
 {
-	if (cmd->in.input)
+	simple->inout = cmd->in;
+	if (cmd->in.input->content)
 	{
-		simple->_input_file = ft_strdup((char *)cmd->in.input->content);
+		simple->_input_file = (char *)ft_lstlast(cmd->in.input)->content;
 		simple->heredoc = 0;
 	}
-	if (cmd->in.heredoc)
+	if (cmd->in.heredoc->content)
 	{
-		simple->_input_file = ft_strdup((char *)cmd->in.input->content);
+		simple->_input_file = (char *)ft_lstlast(cmd->in.heredoc)->content;
 		simple->heredoc = 1;
 	}
-	if (cmd->in.output)
+	if (cmd->in.output->content)
 	{
-		simple->_out_file = ft_strdup((char *)cmd->in.output->content);
+		simple->_out_file = (char *)ft_lstlast(cmd->in.output)->content;
 		simple->append = 0;
 	}
-	if (cmd->in.append)
+	if (cmd->in.append->content)
 	{
-		simple->_out_file = ft_strdup((char *)cmd->in.output->content);
+		simple->_out_file = (char *)ft_lstlast(cmd->in.append)->content;
 		simple->append = 1;
 	}
 }
 
 int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 {
-	printf("TEST cmd_cpy\n");
-	printf("simple: %p, tree: %p\n", simple, tree);
 	t_cenas	*cenas;
 	int		i;
-
-	if (!tree->leafs)
-		printf("TEST NO LEAFS\n");
 
 	cenas = (t_cenas *)tree->content;
 	i = 0;
@@ -55,19 +51,14 @@ int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 	if (!simple->args)
 		return (0);
 	i = -1;
-
-
 	while (cenas->cmd[++i])
 		simple->args[i] = ft_strdup(cenas->cmd[i]);
-	// printf("test simple->args[0]: %s\n", simple->args[0]);
 	inout_flags(cenas, simple);
 	return (1);
 }
 
 void	initialize_simple(t_full_cmd *full_cmd, t_tree	*t)
 {
-	printf("TEST initialize_simple\n");
-
 	t_simple_cmd	**simple;
 	int				i;
 
@@ -78,14 +69,12 @@ void	initialize_simple(t_full_cmd *full_cmd, t_tree	*t)
 
 	while (++i < t->lcount)
 	{
-		printf("TEST t->lcount: %d\n", t->lcount);
 		simple[i] = malloc(sizeof(t_simple_cmd));
 		if (!simple[i])
 			return ;
 		if (!cmd_cpy(simple[i], t->leafs[i]))
 			return ;
 	}
-	printf("test simple->args[0]: %s\n", simple[0]->args[0]);
 	full_cmd->simple_cmds = simple;
 }
 
