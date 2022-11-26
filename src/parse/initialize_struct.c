@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_struct.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/26 14:23:57 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/26 15:29:35 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,14 @@ void	inout_flags(t_cenas *cmd, t_simple_cmd	*simple)
 int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 {
 	printf("TEST cmd_cpy\n");
-
+	printf("simple: %p, tree: %p\n", simple, tree);
 	t_cenas	*cenas;
 	int		i;
 
 	if (!tree->leafs)
 		printf("TEST NO LEAFS\n");
 
-	cenas = (t_cenas *)tree->leafs[0]->content;
-
+	cenas = (t_cenas *)tree->content;
 	i = 0;
 	while (cenas->cmd[i])
 		i++;
@@ -57,15 +56,15 @@ int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 		return (0);
 	i = -1;
 
-	printf("test cenas->cmd[0]: %s\n", cenas->cmd[0]);
 
 	while (cenas->cmd[++i])
 		simple->args[i] = ft_strdup(cenas->cmd[i]);
+	// printf("test simple->args[0]: %s\n", simple->args[0]);
 	inout_flags(cenas, simple);
 	return (1);
 }
 
-t_simple_cmd	**initialize_simple(t_tree	*t)
+void	initialize_simple(t_full_cmd *full_cmd, t_tree	*t)
 {
 	printf("TEST initialize_simple\n");
 
@@ -74,18 +73,20 @@ t_simple_cmd	**initialize_simple(t_tree	*t)
 
 	simple = ft_calloc(t->lcount, sizeof(t_simple_cmd *));
 	if (!simple)
-		return (NULL);
+		return ;
 	i = -1;
 
-	printf("TEST t->lcount: %d\n", t->lcount);
-
-	// while (++i < t->lcount - 1)
 	while (++i < t->lcount)
 	{
+		printf("TEST t->lcount: %d\n", t->lcount);
+		simple[i] = malloc(sizeof(t_simple_cmd));
+		if (!simple[i])
+			return ;
 		if (!cmd_cpy(simple[i], t->leafs[i]))
-			return (NULL);
+			return ;
 	}
-	return (simple);
+	printf("test simple->args[0]: %s\n", simple[0]->args[0]);
+	full_cmd->simple_cmds = simple;
 }
 
 t_full_cmd	*initialize_struct(t_commands *cmd)
@@ -100,11 +101,10 @@ t_full_cmd	*initialize_struct(t_commands *cmd)
 
 	printf("test n_simple_cmds: %d\n", full_cmd->n_simple_cmds);
 
-	full_cmd->simple_cmds = initialize_simple(cmd->tree);
+	initialize_simple(full_cmd, cmd->tree);
 
-	if (!full_cmd->simple_cmds)
+	if (!full_cmd->simple_cmds[0])
 		printf("simple_cmds = NULL\n");
-
-	full_cmd->curr_simple_cmd = *full_cmd->simple_cmds;
+	full_cmd->curr_simple_cmd = full_cmd->simple_cmds[0];
 	return (full_cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/26 14:23:20 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/26 15:24:09 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int	main(int argc, char **argv, char **env)
 		g_global.full_cmd = parse(g_global.input);
 		if (!g_global.full_cmd)
 			continue ;
+		curr_simple_cmd = g_global.full_cmd->curr_simple_cmd;
 		if (!ft_strcmp(curr_simple_cmd->args[0], "cd")){
 			cd();
 			continue ;
