@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkinput.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 18:13:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:37:22 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/26 17:40:49 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	check_qparen(const char *str, char q, char text, char dq, int i)
 	return (i);
 }
 
-static int	check_ops(const char *str, char q, char text, char dq, int i)
+static int	check_ops(const char *str, int q, int text, int dq, int i)
 {
 	int	paren;
 
@@ -69,8 +69,10 @@ static int	check_ops(const char *str, char q, char text, char dq, int i)
 			if ((!text && paren != 8) || (text && paren == 8))
 				return (0);
 			if (str[i] != ';')
+			{
 				++i;
-			text = 0;
+				text = 0;
+			}
 		}
 		else if (str[i] == ')' && ((text && !(paren == 8)) || (!text && (paren == 8))))
 			(text || !text) && (paren = 8)
@@ -82,7 +84,7 @@ static int	check_ops(const char *str, char q, char text, char dq, int i)
 		else
 			text = 1;
 	}
-	return ((text && q != 8) || (!text && q == 8));
+	return ((text && paren != 8) || (!text && paren == 8));
 }
 
 t_commands	*check_input(const char *str)

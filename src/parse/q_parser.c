@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:48:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 18:39:24 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/26 17:42:54 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*parse_q(char *str, int count)
 	int	skip;
 	int	in_var;
 	int	i;
-
+	
 	q = 0;
 	dq = 0;
 	in_var = 0;

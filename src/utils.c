@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/26 14:19:29 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/26 15:39:59 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	free_global(char *err)
 	ft_free(g_global.input);
 	ft_free(g_global.cwd);
 	free_arr(g_global.argv);
-	free_full_cmd();
+	if (g_global.full_cmd)
+		free_full_cmd();
 	if (g_global.exports)
 		free_exports(g_global.exports);
 	ft_free(g_global.exports);
