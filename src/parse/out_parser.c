@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 00:07:05 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 20:19:57 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 21:31:46 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ static int	parse_op_cmd(t_cenas *cmd)
 		(q & 3) && cur++;
 		if (q & 3)
 			continue ;
-		((!ft_strncmp(cur, "<<", 2)) && ((i = input(cur + 2, cmd, 1) &&
-			get_heredoc(cmd, cur)) || 1))
+		((!ft_strncmp(cur, "<<", 2)) && ((i = input(cur + 2, cmd, 1)) || 1))
 		|| ((!ft_strncmp(cur, ">>", 2)) && ((i = output(cur + 2, cmd, 1)) || 1))
 		|| ((*cur == '<') && ((i = input(cur + 1, cmd, 0)) || 1))
 		|| ((*cur == '>') && ((i = output(cur + 1, cmd, 0)) || 1))
