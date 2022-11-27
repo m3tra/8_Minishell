@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   not_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 01:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/27 19:25:02 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 19:51:40 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 	ret = 0;
 	new_path = ft_strdup(path);
 	dir = opendir(path);
+	if (!dir)
+		return (0);
 	entry = readdir(dir);
 	while (entry != NULL)
 	{
@@ -60,7 +62,7 @@ pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 		}
 		entry = readdir(dir);
 	}
-	free(new_path);
+	ft_free(new_path);
 	closedir(dir);
 	return (ret);
 }
