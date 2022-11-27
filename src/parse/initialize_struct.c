@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 19:01:27 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 21:38:35 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,28 @@ void	inout_flags(t_cenas *cmd, t_simple_cmd	*simple)
 	simple->inout = cmd->in;
 	if (cmd->in.input && cmd->in.input->content)
 	{
-		simple->_input_file = (char *)ft_lstlast(cmd->in.input)->content;
+		simple->_input_file = ft_strdup(ft_lstlast(cmd->in.input)->content);
 		simple->heredoc = 0;
 	}
-	if (cmd->in.heredoc && cmd->in.heredoc->content)
+	else if (cmd->in.heredoc && cmd->in.heredoc->content)
 	{
-		simple->_input_file = (char *)ft_lstlast(cmd->in.heredoc)->content;
+		simple->_input_file = ft_strdup(ft_lstlast(cmd->in.heredoc)->content);
 		simple->heredoc = 1;
 	}
+	else
+		simple->_input_file = NULL;
 	if (cmd->in.output && cmd->in.output->content)
 	{
-		simple->_out_file = (char *)ft_lstlast(cmd->in.output)->content;
+		simple->_out_file = ft_strdup(ft_lstlast(cmd->in.output)->content);
 		simple->append = 0;
 	}
-	if (cmd->in.append && cmd->in.append->content)
+	else if (cmd->in.append && cmd->in.append->content)
 	{
-		simple->_out_file = (char *)ft_lstlast(cmd->in.append)->content;
+		simple->_out_file = ft_strdup(ft_lstlast(cmd->in.output)->content);
 		simple->append = 1;
 	}
+	else
+		simple->_out_file = NULL;
 	if (cmd->cmd_flags & 0x40)
 		simple->pipe = 1;
 	else
