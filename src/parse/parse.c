@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 18:21:31 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 19:24:42 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@ static void	free_in_out(void *v)
 		ft_lstclear(&cmd->in.heredoc, free);
 	if (cmd->in.append)
 		ft_lstclear(&cmd->in.append, free);
-	if (cmd->in.in)
-		ft_lstclear(&cmd->in.in, free);
-	if (cmd->in.out)
-		ft_lstclear(&cmd->in.out, free);
 }
 
 static void	free_cmd(void *v)
@@ -58,6 +54,8 @@ static void	free_cmd(void *v)
 
 void	free_command(t_commands *cmd)
 {
+	if (!cmd)
+		return ;
 	free(cmd->line);
 	treeclear(cmd->tree, free_cmd);
 	free(cmd);
@@ -88,6 +86,7 @@ t_full_cmd	*parse(char	*input)
 		unmask(cmd->tree);
 	full_cmd = initialize_struct(cmd);
 	full_cmd->curr_simple_cmd = full_cmd->simple_cmds[0];
+	// free_tree(cmd->tree);
 	free_command(cmd);
 	if (!full_cmd)
 		return (NULL);

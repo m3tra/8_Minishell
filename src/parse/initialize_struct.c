@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 18:24:28 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 19:01:27 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,26 @@ int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 	return (1);
 }
 
-void	initialize_simple(t_full_cmd *full_cmd, t_tree	*t)
+int	initialize_simple(t_full_cmd *full_cmd, t_tree	*t)
 {
 	t_simple_cmd	**simple;
 	int				i;
 
 	simple = ft_calloc(t->lcount, sizeof(t_simple_cmd *));
 	if (!simple)
-		return ;
+		return (0);
 	i = -1;
 
 	while (++i < t->lcount)
 	{
 		simple[i] = malloc(sizeof(t_simple_cmd));
 		if (!simple[i])
-			return ;
+			return (0);
 		if (!cmd_cpy(simple[i], t->leafs[i]))
-			return ;
+			return (0);
 	}
 	full_cmd->simple_cmds = simple;
+	return (1);
 }
 
 t_full_cmd	*initialize_struct(t_commands *cmd)
@@ -91,7 +92,11 @@ t_full_cmd	*initialize_struct(t_commands *cmd)
 	if (!full_cmd)
 		return (NULL);
 	full_cmd->n_simple_cmds = cmd->tree->lcount;
-	initialize_simple(full_cmd, cmd->tree);
+	if (!initialize_simple(full_cmd, cmd->tree))
+	{
+		free (full_cmd);
+		return (NULL);
+	}
 	full_cmd->curr_simple_cmd = full_cmd->simple_cmds[0];
 	return (full_cmd);
 }
