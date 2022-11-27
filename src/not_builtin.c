@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   not_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 01:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/27 18:29:17 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:52:32 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,15 @@ pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 	pid_t			ret;
 	char			*exec;
 
+	dir = NULL;
+	entry = NULL;
 	exec = sCmd->args[0];
 	ret = 0;
 	new_path = ft_strdup(path);
-	dir = opendir(path);
-	entry = readdir(dir);
+	if (!path) {
+		dir = opendir(path);
+		entry = readdir(dir);
+	}
 	while (entry != NULL)
 	{
 		if (!ft_strcmp(entry->d_name, exec))
@@ -53,7 +57,8 @@ pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 			temp = new_path;
 			new_path = ft_strjoin(new_path, exec);
 			free(temp);
-			closedir(dir);
+			if (dir)
+				closedir(dir);
 			ret = execute(new_path);
 			free(new_path);
 			return (ret);
@@ -61,7 +66,8 @@ pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 		entry = readdir(dir);
 	}
 	free(new_path);
-	closedir(dir);
+	if (dir)
+		closedir(dir);
 	return (ret);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/27 18:28:57 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:40:21 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,11 @@ void	handle_io(void)
 		else
 		{
 			ret = not_builtin(curr_simple_cmd);
-			if (!ret)
-				free_global(CLR_RED"Command not found"CLR_RST);
+			if (!ret) {
+				// free_global(CLR_RED"Command not found"CLR_RST);
+				printf(CLR_RED"Command not found"CLR_RST);
+				printf("\n");
+			}
 		}
 		// // Create child process
 		// ret = fork();
