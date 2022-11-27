@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 01:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/27 18:52:32 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 19:25:02 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,11 @@ pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 	pid_t			ret;
 	char			*exec;
 
-	dir = NULL;
-	entry = NULL;
 	exec = sCmd->args[0];
 	ret = 0;
 	new_path = ft_strdup(path);
-	if (!path) {
-		dir = opendir(path);
-		entry = readdir(dir);
-	}
+	dir = opendir(path);
+	entry = readdir(dir);
 	while (entry != NULL)
 	{
 		if (!ft_strcmp(entry->d_name, exec))
@@ -57,8 +53,7 @@ pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 			temp = new_path;
 			new_path = ft_strjoin(new_path, exec);
 			free(temp);
-			if (dir)
-				closedir(dir);
+			closedir(dir);
 			ret = execute(new_path);
 			free(new_path);
 			return (ret);
@@ -66,8 +61,7 @@ pid_t	search_dir(t_simple_cmd *sCmd, char *path)
 		entry = readdir(dir);
 	}
 	free(new_path);
-	if (dir)
-		closedir(dir);
+	closedir(dir);
 	return (ret);
 }
 
