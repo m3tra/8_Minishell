@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 16:45:02 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 11:32:52 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 20:01:53 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ static void	*newcmd(char *key, char *line)
 	if (!cenas)
 		return (NULL);
 	cenas->line = line;
-	// cenas->in.in = NULL;
-	// cenas->in.input = NULL;
-	// cenas->in.heredoc = NULL;
-	// cenas->in.out = NULL;
-	// cenas->in.output = NULL;
-	// cenas->in.append = NULL;
 	((!ft_strncmp(key, "&&", 2)) && (cenas->cmd_flags |= 0x04))
 	|| ((!ft_strncmp(key, "||", 2)) && (cenas->cmd_flags |= 0x08))
 	|| (((*key == ')') || (*key == '\0')) && (cenas->cmd_flags |= 0x10))

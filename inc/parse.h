@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:03:59 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 18:11:06 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 20:48:49 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_cenas
 	char	*line;
 	char	**cmd;
 	char	cmd_flags;
+	char	*heredoc;
 	t_inout	in;
 }				t_cenas;
 
@@ -144,11 +145,7 @@ t_full_cmd	*initialize_struct(t_commands *cmd);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
 int			wild(int i, char **s, t_cenas *cmd, int norm);
-
-void	free_cmds(t_commands *cmd);
-void	free_cenas(t_cenas *cenas);
-void	free_tree(t_tree *tree);
-
+void		check_heredoc(t_tree *t);
 //testing funcs
 void		print_tree(t_tree *tree);
 

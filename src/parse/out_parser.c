@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 00:07:05 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 13:05:34 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 20:19:57 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,10 @@ static int	output(char *str, t_cenas *cmd, int append)
 	out = ft_substr(str, skip, i);
 	((!append) && (l = ft_lstnew(ft_strjoin("", out))))
 		|| (l = ft_lstnew(ft_strjoin("", out)));
-	// printf("output: %s\n", out);
 	free(out);
 	if (!l)
 		return (-1);
 	if (append) {
-		// printf("append: %s\n", (char *)l->content);
 		ft_lstadd_back(&cmd->in.append, l);
 	}
 	else
@@ -93,7 +91,8 @@ static int	parse_op_cmd(t_cenas *cmd)
 		(q & 3) && cur++;
 		if (q & 3)
 			continue ;
-		((!ft_strncmp(cur, "<<", 2)) && ((i = input(cur + 2, cmd, 1)) || 1))
+		((!ft_strncmp(cur, "<<", 2)) && ((i = input(cur + 2, cmd, 1) &&
+			get_heredoc(cmd, cur)) || 1))
 		|| ((!ft_strncmp(cur, ">>", 2)) && ((i = output(cur + 2, cmd, 1)) || 1))
 		|| ((*cur == '<') && ((i = input(cur + 1, cmd, 0)) || 1))
 		|| ((*cur == '>') && ((i = output(cur + 1, cmd, 0)) || 1))

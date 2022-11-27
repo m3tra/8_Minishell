@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 14:18:42 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 17:36:24 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 21:25:50 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*replace_str(char *str, char *value, int pos, int len)
 	temp1 = ft_substr(str, 0, pos);
 	i = -1;
 	while (value[i])
-		value[i] += 132;
+		value[i] *= -1;
 	temp2 = ft_strjoin(temp1, value);
 	free(value);
 	free(temp1);
@@ -48,34 +48,33 @@ static char	*replace_str(char *str, char *value, int pos, int len)
 	return (temp1);
 }
 
-static int	replace(char **str, int start, t_cenas *cmd, int i, int j)
+static int	replace(char **str, int start, t_cenas *cmd, int i)
 {
 	char	*s;
-	char	*value;
+	char	*val;
 	char	*var;
 
-	i = start;
+	i = start - 1;
 	s = *str;
-	if (s[i] == '?' || (s[i] - 132) == '?')
+	if ((s[i + 1] & 0x7F) == '?')
 		cmd->cmd_flags |= 2;
-	if (s[i] == '?' || (s[i] - 132) == '?')
+	if ((s[i + 1] & 0x7F) == '?')
 		return (0);
-	while (ft_isalnum(s[i]) || (s[i]) == '_' || ft_isalnum(s[i] - 132) || \
-		(s[i] - 132) == '_')
-		i++;
+	while (ft_isalnum((s[++i] & 0x7F)) || (s[i] & 0x7F) == '_')
+		;
 	i -= start;
 	if (!i)
 		return (0);
 	var = ft_substr(s, start, i);
 	unmask_str(var);
-	value = list_get(var, g_global.env_list);
-	free(var);
-	if (!value)
+	val = list_get(var, g_global.env);
+	ft_free(var);
+	if (!val)
 		return (0);
-	j = ft_abs(i - ft_strlen(value));
-	*str = replace_str(s, value, start - 1, i + 1);
-	free(s);
-	return (j);
+	*str = replace_str(s, val, start - 1, (i + 1) + ((s[start] & 0x80) * 16777216));
+	i = ft_abs(i - ft_strlen(val));
+	ft_free(s);
+	return (i);
 }
 
 static char	*expand_cmd(char *s, t_cenas *cmd)
@@ -91,7 +90,7 @@ static char	*expand_cmd(char *s, t_cenas *cmd)
 		if (i & 1)
 			continue ;
 		if ((s[i >> 1] & 0x7F) == '$')
-			i += (replace(&s, (i >> 1) + 1, cmd, 0, 0) << 1);
+			i += (replace(&s, (i >> 1) + 1, cmd, 0) << 1);
 		else if (s[i >> 1] == '*')
 			i = (wild(i >> 1, &s, cmd, -1) << 1) + (i & 1);
 	}

@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 18:13:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 18:29:55 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 20:45:34 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	check_qparen(const char *str, char q, char text, char dq, int i)
 		else
 			text++;
 	}
-	if (q)
+	if (q || dq)
 		return (-2);
 	return (i);
 }
@@ -90,15 +90,22 @@ static int	check_ops(const char *str, int q, int text, int dq, int i)
 t_commands	*check_input(const char *str)
 {
 	t_commands	*cmd;
+	int			check;
 
+	check = 0;
 	cmd = ft_calloc(1, sizeof(t_commands));
 	if (!cmd)
-		return (NULL);
+		check = 1;
 	if (!str || isempty(str))
-		return (NULL);
+		check = 1;
 	if (check_qparen(str, 0, 0, 0, -1) != (int)ft_strlen(str))
-		return (NULL);
+		check = 1;
 	else if (!check_ops(str, 0, 0, 0, -1))
-		return (NULL);
+		check = 1;
+	if (check)
+	{
+		printf("Bad Input\n");
+		return(NULL);
+	}
 	return (cmd);
 }
