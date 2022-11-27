@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 11:56:42 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 17:35:46 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 	i = 0;
 	while (cenas->cmd[i])
 		i++;
-	simple->args = malloc(i * sizeof(char *));
+	simple->args = malloc((i + 1) * sizeof(char *));
 	if (!simple->args)
 		return (0);
 	i = -1;
 	while (cenas->cmd[++i])
 		simple->args[i] = ft_strdup(cenas->cmd[i]);
+	simple->n_args = i;
+	simple->args[i] = NULL;
 	inout_flags(cenas, simple);
 	// free_cenas(cenas);
 	return (1);
@@ -124,7 +126,7 @@ t_full_cmd	*initialize_struct(t_commands *cmd)
 		return (NULL);
 	full_cmd->n_simple_cmds = cmd->tree->lcount;
 
-	printf("test n_simple_cmds: %d\n", full_cmd->n_simple_cmds);
+	// printf("test n_simple_cmds: %d\n", full_cmd->n_simple_cmds);
 
 	initialize_simple(full_cmd, cmd->tree);
 	// free_cmds(cmd);

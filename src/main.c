@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/27 13:11:53 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 17:34:14 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,31 @@ static void	read_command(void)
 	g_global.argv = split_args(g_global.input);
 }
 
+
+
+// void	print_full_cmd(void) {
+// 	int	n_simple_cmds = g_global.full_cmd->n_simple_cmds;
+// 	int	n_args = 0;
+// 	if (n_simple_cmds)
+// 		n_args = g_global.full_cmd->simple_cmds[0]->n_args;
+// 	printf("=================\n");
+// 	printf("Full_cmd:\n");
+// 	printf("n_simple_cmds: %d\n", n_simple_cmds);
+// 	for (int i = 0; i < n_simple_cmds; i++) {
+// 		printf("simple_cmds[%d]: \n", i);
+// 		n_args = g_global.full_cmd->simple_cmds[i]->n_args;
+// 		printf("n_args: %d\n", n_args);
+// 		for (int j = 0; j < n_args; j++) {
+// 			printf("arg[%d]: %s\n", j, g_global.full_cmd->simple_cmds[i]->args[j]);
+// 		}
+// 		if (g_global.full_cmd->simple_cmds[i]->args && \
+// 				g_global.full_cmd->simple_cmds[i]->args[n_args] && \
+// 				g_global.full_cmd->simple_cmds[i]->args[n_args] != NULL)
+// 			printf("arg[%d]: Not NULL\n", n_args);
+// 	}
+// 	printf("=================\n\n");
+// }
+
 void	handle_io(void)
 {
 	// char	*fileIn;
@@ -83,15 +108,12 @@ void	handle_io(void)
 	n_simple_cmds = g_global.full_cmd->n_simple_cmds;
 	simple_cmds = g_global.full_cmd->simple_cmds;
 
-	printf("n_simple_cmds: %d\n", n_simple_cmds);
-	// printf("simple_cmds[0]: %d\n", simple_cmds[0]->n_args);
-	// for (int i = 0; i < n_simple_cmds; i++)
-	// 	for (int j = 0; i < simple_cmds[i]->n_args; i++)
-	// 		printf("simple_cmds[%d][%d]: %s\n", i, j, simple_cmds[i]->args[j]);
+	// print_full_cmd();
 
 	for (int i = 0; i < n_simple_cmds; i++)
 	{
 		curr_simple_cmd = simple_cmds[i];
+
 		if (curr_simple_cmd->_input_file)
 			fdIn = open(curr_simple_cmd->_input_file, O_RDONLY);
 		else
@@ -183,10 +205,10 @@ int	main(int argc, char **argv, char **env)
 		}
 		else if (!ft_strcmp(curr_simple_cmd->args[0], "exit"))
 			break ;
-		// if (!builtin(curr_simple_cmd->args[0]))
-		// 	not_builtin(curr_simple_cmd->args[0]);
+		// if (!builtin(curr_simple_cmd))
+		// 	not_builtin(curr_simple_cmd);
 		handle_io();
-		curr_simple_cmd = ++*g_global.full_cmd->simple_cmds;
+		// curr_simple_cmd = ++*g_global.full_cmd->simple_cmds;
 		wait(NULL);
 	}
 	free_global(NULL);

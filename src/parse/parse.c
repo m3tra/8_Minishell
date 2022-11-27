@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 11:56:48 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 15:26:03 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ t_full_cmd	*parse(char	*input)
 	if (!err)
 		unmask(cmd->tree);
 	full_cmd = initialize_struct(cmd);
+	full_cmd->curr_simple_cmd = full_cmd->simple_cmds[0];
 	// free_tree(cmd->tree);
 	if (!full_cmd)
 		return (NULL);
