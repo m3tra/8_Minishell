@@ -6,18 +6,11 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:48:33 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 20:24:51 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 21:39:31 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-
-int	get_heredoc(t_cenas *cenas, char *line)
-{
-	char *eof;
-
-	eof = get_word(line);
-}
 
 int	word_split(t_tree *tree)
 {

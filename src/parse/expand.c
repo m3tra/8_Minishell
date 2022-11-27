@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 14:18:42 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 21:25:50 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 21:40:25 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	replace(char **str, int start, t_cenas *cmd, int i)
 		return (0);
 	var = ft_substr(s, start, i);
 	unmask_str(var);
-	val = list_get(var, g_global.env);
+	val = list_get(var, g_global.env_list);
 	ft_free(var);
 	if (!val)
 		return (0);
