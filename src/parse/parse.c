@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 15:26:03 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 18:21:31 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_full_cmd	*parse(char	*input)
 		unmask(cmd->tree);
 	full_cmd = initialize_struct(cmd);
 	full_cmd->curr_simple_cmd = full_cmd->simple_cmds[0];
-	// free_tree(cmd->tree);
+	free_command(cmd);
 	if (!full_cmd)
 		return (NULL);
 	return (full_cmd);
