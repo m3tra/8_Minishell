@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:03:59 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 17:31:20 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 11:57:48 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_H
 # define PARSE_H
 
+// # include "struct.h"
 # include "minishell.h"
-# include "struct.h"
 
 # define DEL -4
 # define B -3
@@ -93,6 +93,40 @@ typedef struct s_commands
 	t_tree	*tree;
 }				t_commands;
 
+
+
+// Describes a simple command and arguments
+typedef struct s_simple_cmd
+{
+	// Number of arguments
+	int			n_args;
+	// Array of arguments
+	char		**args;
+
+	// mudar referencia da struct IMPORTANTE
+	char		*_out_file;
+	char		*_input_file;
+	char		*_err_file;
+	int			append;
+	int			heredoc;
+	void		*next;
+	t_inout		inout;
+	int			pipe;
+}	t_simple_cmd;
+
+// Describes a complete command with the multiple pipes if any
+// and input/output redirection if any.
+
+typedef struct s_full_cmd
+{
+	int				n_simple_cmds;
+	t_simple_cmd	**simple_cmds;
+	int				_background;
+	t_simple_cmd	*curr_simple_cmd;
+}				t_full_cmd;
+
+
+
 t_commands	*check_input(const char *str);
 t_tree		*treenew(void *content);
 int			treeadd(t_tree *tree, void *content);
@@ -110,6 +144,10 @@ t_full_cmd	*initialize_struct(t_commands *cmd);
 int			ft_isspecial(char s);
 void		lstsort(t_list **l);
 int			wild(int i, char **s, t_cenas *cmd, int norm);
+
+void	free_cmds(t_commands *cmd);
+void	free_cenas(t_cenas *cenas);
+void	free_tree(t_tree *tree);
 
 //testing funcs
 void		print_tree(t_tree *tree);

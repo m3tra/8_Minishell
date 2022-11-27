@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/26 15:24:09 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 13:11:53 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,15 @@ void	handle_io(void)
 			// Last simple command
 			// If there is a specified output file ( > *.* ) open it
 			// Else use default output
-			if (curr_simple_cmd->_out_file)
-				fdOut = open(curr_simple_cmd->_out_file, O_RDWR | O_CREAT, 0777);
+			if (curr_simple_cmd->_out_file) {
+				// printf("_out_file: %s\n", curr_simple_cmd->_out_file);
+				if (curr_simple_cmd->inout.append) {
+					// printf("last append: %s\n", (char *)ft_lstlast(curr_simple_cmd->inout.append));
+					fdOut = open((char *)ft_lstlast(curr_simple_cmd->inout.append)->content, O_RDWR | O_CREAT | O_APPEND, 0777);
+				}
+				else
+					fdOut = open(curr_simple_cmd->_out_file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			}
 			else
 				fdOut = dup(originalFdOut);
 		}
@@ -170,7 +177,7 @@ int	main(int argc, char **argv, char **env)
 		if (!g_global.full_cmd)
 			continue ;
 		curr_simple_cmd = g_global.full_cmd->curr_simple_cmd;
-		if (!ft_strcmp(curr_simple_cmd->args[0], "cd")){
+		if (!ft_strcmp(curr_simple_cmd->args[0], "cd")) {
 			cd();
 			continue ;
 		}

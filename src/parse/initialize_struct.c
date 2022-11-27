@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_struct.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:26:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/26 18:17:23 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 11:56:42 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,34 @@
 void	inout_flags(t_cenas *cmd, t_simple_cmd	*simple)
 {
 	simple->inout = cmd->in;
-	if (cmd->in.input->content)
+	if (cmd->in.input && cmd->in.input->content)
 	{
 		simple->_input_file = (char *)ft_lstlast(cmd->in.input)->content;
 		simple->heredoc = 0;
 	}
-	if (cmd->in.heredoc->content)
+	if (cmd->in.heredoc && cmd->in.heredoc->content)
 	{
 		simple->_input_file = (char *)ft_lstlast(cmd->in.heredoc)->content;
 		simple->heredoc = 1;
 	}
-	if (cmd->in.output->content)
+	if (cmd->in.output && cmd->in.output->content)
 	{
 		simple->_out_file = (char *)ft_lstlast(cmd->in.output)->content;
 		simple->append = 0;
 	}
-	if (cmd->in.append->content)
+	if (cmd->in.append && cmd->in.append->content)
 	{
 		simple->_out_file = (char *)ft_lstlast(cmd->in.append)->content;
 		simple->append = 1;
 	}
+}
+
+
+
+
+void	free_cenas(t_cenas *cenas) {
+	ft_free(cenas->line);
+	free_arr(cenas->cmd);
 }
 
 int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
@@ -54,8 +62,12 @@ int	cmd_cpy(t_simple_cmd *simple, t_tree *tree)
 	while (cenas->cmd[++i])
 		simple->args[i] = ft_strdup(cenas->cmd[i]);
 	inout_flags(cenas, simple);
+	// free_cenas(cenas);
 	return (1);
 }
+
+
+
 
 void	initialize_simple(t_full_cmd *full_cmd, t_tree	*t)
 {
@@ -78,6 +90,30 @@ void	initialize_simple(t_full_cmd *full_cmd, t_tree	*t)
 	full_cmd->simple_cmds = simple;
 }
 
+
+
+
+
+void	free_tree(t_tree *tree) {
+	int	i;
+
+	i = 0;
+	if (!tree)
+		return ;
+	while (i < tree->lcount) {
+		if (tree->content)
+			free_cenas(tree->content);
+		free_tree(tree->leafs[i++]);
+	}
+	free(tree);
+}
+
+void	free_cmds(t_commands *cmd) {
+	ft_free(cmd->line);
+	if (cmd->tree)
+		free_tree(cmd->tree);
+}
+
 t_full_cmd	*initialize_struct(t_commands *cmd)
 {
 	// printf("TEST initialize_struct\n");
@@ -91,7 +127,7 @@ t_full_cmd	*initialize_struct(t_commands *cmd)
 	printf("test n_simple_cmds: %d\n", full_cmd->n_simple_cmds);
 
 	initialize_simple(full_cmd, cmd->tree);
-
+	// free_cmds(cmd);
 	if (!full_cmd->simple_cmds[0])
 		printf("simple_cmds = NULL\n");
 	full_cmd->curr_simple_cmd = full_cmd->simple_cmds[0];

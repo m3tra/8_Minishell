@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 18:58:32 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 16:35:54 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 11:57:11 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ t_tree	*treenew(void *content)
 	if (!ret)
 		return (NULL);
 	ret->content = content;
+	// if (!content)
+	// 	ret->lcount = 0;
+	// else
+	// 	ret->lcount = 1;
 	return (ret);
 }
 

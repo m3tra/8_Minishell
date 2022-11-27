@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/26 15:39:59 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 11:37:27 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	update_cwd(void)
 
 void	global_init(char **env)
 {
-	t_full_cmd		*t_cmd;
+	// t_full_cmd	*t_cmd;
 
 	g_global.env = env;
 
@@ -36,9 +36,9 @@ void	global_init(char **env)
 		free_global(CLR_RED"Failed env parsing"CLR_RST);
 	update_cwd();
 
-	t_cmd = malloc (sizeof(t_full_cmd));
-	if (!t_cmd)
-		free_global(CLR_RED"Failed malloc of t_cmd"CLR_RST);
+	// t_cmd = malloc(sizeof(t_full_cmd));
+	// if (!t_cmd)
+	// 	free_global(CLR_RED"Failed malloc of t_cmd"CLR_RST);
 
 	parse_path();
 }
@@ -74,6 +74,8 @@ void	free_full_cmd(void)
 	int	i;
 
 	i = 0;
+	if (!g_global.full_cmd)
+		return ;
 	while (i < g_global.full_cmd->n_simple_cmds)
 		ft_free(g_global.full_cmd->simple_cmds[i++]);
 	ft_free(g_global.full_cmd);
@@ -86,8 +88,7 @@ void	free_global(char *err)
 	ft_free(g_global.input);
 	ft_free(g_global.cwd);
 	free_arr(g_global.argv);
-	if (g_global.full_cmd)
-		free_full_cmd();
+	free_full_cmd();
 	if (g_global.exports)
 		free_exports(g_global.exports);
 	ft_free(g_global.exports);

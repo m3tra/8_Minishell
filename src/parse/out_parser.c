@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 00:07:05 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/25 17:25:46 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 13:05:34 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,16 @@ static int	output(char *str, t_cenas *cmd, int append)
 	while (str[skip + i] && !ft_isspace(str[skip + i]))
 		i++;
 	out = ft_substr(str, skip, i);
-	((!append) && (l = ft_lstnew(ft_strjoin(">", out))))
-		|| (l = ft_lstnew(ft_strjoin(">>", out)));
-	printf("output: %s\n", out);
+	((!append) && (l = ft_lstnew(ft_strjoin("", out))))
+		|| (l = ft_lstnew(ft_strjoin("", out)));
+	// printf("output: %s\n", out);
 	free(out);
 	if (!l)
 		return (-1);
-	if (append)
+	if (append) {
+		// printf("append: %s\n", (char *)l->content);
 		ft_lstadd_back(&cmd->in.append, l);
+	}
 	else
 		ft_lstadd_back(&cmd->in.output, l);
 	cmd->in.out = l;

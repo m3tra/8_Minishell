@@ -6,7 +6,7 @@
 /*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/26 13:17:50 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 11:20:56 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "readline.h"
 # include "history.h"
 # include "parse.h"
-# include "struct.h"
+// # include "struct.h"
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -67,6 +67,9 @@
 // 	struct t_full_cmd	*currCmd;
 // 	t_simple_cmd		*currSimpleCmd;
 // }				t_full_cmd;
+
+typedef struct s_simple_cmd t_simple_cmd;
+typedef struct s_full_cmd t_full_cmd;
 
 typedef struct s_env
 {
