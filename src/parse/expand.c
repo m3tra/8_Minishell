@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 14:18:42 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 21:40:25 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/27 22:44:15 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,17 @@ char	*list_get(const char *var, t_env *env)
 	char	*value;
 
 	list = env;
-	while (list && !ft_strcmp(var, list->name))
+	while (list && ft_strcmp(var, list->name))
 		list = list->next;
 	if (list)
 	{
 		value = ft_strdup(list->value);
-		free(list);
 		return (value);
 	}
-	free(list);
 	return (NULL);
 }
 
-static char	*replace_str(char *str, char *value, int pos, int len)
+static char	*rep_str(char *str, char *value, int pos, int len)
 {
 	char	*temp1;
 	char	*temp2;
@@ -38,7 +36,7 @@ static char	*replace_str(char *str, char *value, int pos, int len)
 
 	temp1 = ft_substr(str, 0, pos);
 	i = -1;
-	while (value[i])
+	while (value[++i])
 		value[i] *= -1;
 	temp2 = ft_strjoin(temp1, value);
 	free(value);
@@ -48,7 +46,7 @@ static char	*replace_str(char *str, char *value, int pos, int len)
 	return (temp1);
 }
 
-static int	replace(char **str, int start, t_cenas *cmd, int i)
+static int	replace(char **str, int start, t_cenas *cmd, int i, int j)
 {
 	char	*s;
 	char	*val;
@@ -71,10 +69,10 @@ static int	replace(char **str, int start, t_cenas *cmd, int i)
 	ft_free(var);
 	if (!val)
 		return (0);
-	*str = replace_str(s, val, start - 1, (i + 1) + ((s[start] & 0x80) * 16777216));
-	i = ft_abs(i - ft_strlen(val));
+	j = ft_abs(i - ft_strlen(val));
+	*str = rep_str(s, val, start - 1, (i + 1) + ((s[start] & 0x80) * 16777216));
 	ft_free(s);
-	return (i);
+	return (j);
 }
 
 static char	*expand_cmd(char *s, t_cenas *cmd)
@@ -90,7 +88,7 @@ static char	*expand_cmd(char *s, t_cenas *cmd)
 		if (i & 1)
 			continue ;
 		if ((s[i >> 1] & 0x7F) == '$')
-			i += (replace(&s, (i >> 1) + 1, cmd, 0) << 1);
+			i += (replace(&s, (i >> 1) + 1, cmd, 0, 0) << 1);
 		else if (s[i >> 1] == '*')
 			i = (wild(i >> 1, &s, cmd, -1) << 1) + (i & 1);
 	}

@@ -6,27 +6,24 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 15:58:18 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 19:26:56 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/28 01:38:14 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-static void	free_in_out(void *v)
+void	free_in_out(t_simple_cmd *cmd)
 {
-	t_cenas	*cmd;
-
-	if (!v)
+	if (!cmd)
 		return ;
-	cmd = (t_cenas *)v;
-	if (cmd->in.input)
-		ft_lstclear(&cmd->in.input, free);
-	if (cmd->in.output)
-		ft_lstclear(&cmd->in.output, free);
-	if (cmd->in.heredoc)
-		ft_lstclear(&cmd->in.heredoc, free);
-	if (cmd->in.append)
-		ft_lstclear(&cmd->in.append, free);
+	if (cmd->inout.input)
+		ft_lstclear(&cmd->inout.input, free);
+	if (cmd->inout.output)
+		ft_lstclear(&cmd->inout.output, free);
+	if (cmd->inout.heredoc)
+		ft_lstclear(&cmd->inout.heredoc, free);
+	if (cmd->inout.append)
+		ft_lstclear(&cmd->inout.append, free);
 }
 
 static void	free_cmd(void *v)
@@ -46,9 +43,9 @@ static void	free_cmd(void *v)
 			free(cmd->cmd[i]);
 		free(cmd->cmd);
 	}
-	if (cmd->in.input || cmd->in.output || cmd->in.heredoc || \
-		cmd->in.append || cmd->in.in || cmd->in.out)
-		free_in_out(v);
+	// if (cmd->in.input || cmd->in.output || cmd->in.heredoc || \
+	// 	cmd->in.append || cmd->in.in || cmd->in.out)
+	// 	free_in_out(v);
 	free(v);
 }
 
@@ -81,13 +78,12 @@ t_full_cmd	*parse(char	*input)
 		return (NULL);
 	if (!word_split(cmd->tree))
 		err = 1;
-	// print_tree(cmd->tree);
 	if (!err)
 		unmask(cmd->tree);
+	check_heredoc(cmd->tree);
 	full_cmd = initialize_struct(cmd);
-	full_cmd->curr_simple_cmd = full_cmd->simple_cmds[0];
-	// free_tree(cmd->tree);
 	free_command(cmd);
+	full_cmd->curr_simple_cmd = full_cmd->simple_cmds[0];
 	if (!full_cmd)
 		return (NULL);
 	return (full_cmd);

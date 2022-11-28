@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:48:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/26 17:42:54 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/28 00:33:05 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ int	unmask(t_tree *tree)
 		unmask_str(cenas->line);
 	if (cenas && cenas->cmd)
 		while (cenas->cmd[++i])
+		{
 			if (!unmask_str(cenas->cmd[i]))
 				return (0);
+			printf("cmd[%d]: %s\n", i, cenas->cmd[i]);
+		}
 	i = 0;
 	while (i < tree->lcount)
 		if (!unmask(tree->leafs[i++]))

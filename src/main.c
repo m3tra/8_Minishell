@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 21:29:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/27 21:21:13 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/28 01:19:18 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ static void	sigint_action(int signal)
 	printf("\n");
 	rl_on_new_line();
 	rl_redisplay();
+}
+
+static int	is_input_only_spaces(void) {
+	size_t	i;
+
+	i = 0;
+	while (i < ft_strlen(g_global.input) - 1)
+		if (g_global.input[i++] != ' ')
+			return (0);
+	return (1);
 }
 
 static void	read_command(void)
@@ -152,8 +162,10 @@ void	handle_io(void)
 		dup2(fdOut, STDOUT_FILENO);
 		close(fdOut);
 
-		if (is_builtin(curr_simple_cmd->args[0]))
+		if (is_builtin(curr_simple_cmd->args[0])) {
+			// printf("test\n");
 			builtin(curr_simple_cmd);
+		}
 		else
 		{
 			ret = not_builtin(curr_simple_cmd);
@@ -196,6 +208,8 @@ int	main(int argc, char **argv, char **env)
 	{
 		update_cwd();
 		read_command();
+		if (is_input_only_spaces())
+			continue ;
 		// cmd = g_global.argv[0];
 		// s_cmd->args[0] = cmd;
 		g_global.full_cmd = parse(g_global.input);

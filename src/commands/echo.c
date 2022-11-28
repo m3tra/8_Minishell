@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:02:27 by fporto            #+#    #+#             */
-/*   Updated: 2022/04/25 21:16:23 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/28 01:24:27 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo(void)
+void	echo(t_simple_cmd *sCmd)
 {
 	int		n_flag;
 	char	*echo;
@@ -20,14 +20,14 @@ void	echo(void)
 
 	n_flag = 0;
 	i = 0;
-	while (g_global.input[i] && g_global.input[i] != ' ')
-		i++;
-	if (!ft_strcmp(g_global.argv[1], "-n"))
+	if (!ft_strcmp(sCmd->args[1], "-n"))
 	{
 		n_flag = 1;
-		i += 3;
+		i += 1;
 	}
-	echo = ft_strdup(g_global.input + i + 1);
+	if (sCmd->heredoc)
+		return ;
+	echo = ft_strdup(sCmd->args[i + 1]);
 	if (!echo)
 		exit(EXIT_FAILURE);
 	printf("%s", echo);

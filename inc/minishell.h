@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:25 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/27 18:22:43 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/28 01:38:27 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ typedef struct s_global
 	char		*input;
 	char		*infile;
 	char		*outfile;
-	char		*errfile;
 	int			exit;
 	int			background;
 	t_export	*exports;
@@ -118,7 +117,7 @@ t_env	*parse_env(char **env, int a);
 void	parse_path(void);
 
 void	cd(void);
-void	echo(void);
+void	echo(t_simple_cmd *sCmd);
 void	export(void);
 void	unset(char *var);
 
@@ -128,6 +127,7 @@ int		builtin(t_simple_cmd *sCmd);
 pid_t	not_builtin(t_simple_cmd *sCmd);
 pid_t	execute(char *path);
 
+void	delete_temp(char *path);
 // testingFuncs
 void	print_str_array(char **arr);
 

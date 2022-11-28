@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 07:22:57 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/27 11:37:27 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/28 01:38:18 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	global_init(char **env)
 	// t_cmd = malloc(sizeof(t_full_cmd));
 	// if (!t_cmd)
 	// 	free_global(CLR_RED"Failed malloc of t_cmd"CLR_RST);
-
 	parse_path();
 }
 
@@ -77,7 +76,11 @@ void	free_full_cmd(void)
 	if (!g_global.full_cmd)
 		return ;
 	while (i < g_global.full_cmd->n_simple_cmds)
+	{
+		free_in_out(g_global.full_cmd->simple_cmds[i]);
 		ft_free(g_global.full_cmd->simple_cmds[i++]);
+	}
+	ft_free(g_global.full_cmd->simple_cmds);
 	ft_free(g_global.full_cmd);
 }
 

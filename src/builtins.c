@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 00:02:20 by fporto            #+#    #+#             */
-/*   Updated: 2022/11/25 15:38:00 by fporto           ###   ########.fr       */
+/*   Updated: 2022/11/27 22:41:47 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin(t_simple_cmd *sCmd)
 	if (!is_builtin(cmd))
 		return (0);
 	if (!ft_strcmp(cmd, "echo"))
-		echo();
+		echo(sCmd);
 	else if (!ft_strcmp(cmd, "pwd"))
 		printf("%s\n", g_global.cwd);
 	// else if (!ft_strcmp(cmd, "cd"))

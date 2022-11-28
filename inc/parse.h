@@ -6,7 +6,7 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:03:59 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 20:48:49 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/28 01:38:29 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ typedef struct s_simple_cmd
 	// mudar referencia da struct IMPORTANTE
 	char		*_out_file;
 	char		*_input_file;
-	char		*_err_file;
 	int			append;
 	int			heredoc;
 	void		*next;
@@ -146,6 +145,8 @@ int			ft_isspecial(char s);
 void		lstsort(t_list **l);
 int			wild(int i, char **s, t_cenas *cmd, int norm);
 void		check_heredoc(t_tree *t);
+void		free_command(t_commands *cmd);
+void		free_in_out(t_simple_cmd *cmd);
 //testing funcs
 void		print_tree(t_tree *tree);
 

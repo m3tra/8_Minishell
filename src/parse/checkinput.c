@@ -6,21 +6,21 @@
 /*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 18:13:57 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/27 21:32:05 by fheaton-         ###   ########.fr       */
+/*   Updated: 2022/11/28 00:29:19 by fheaton-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	isempty(const char *str)
-{
-	int	i;
+// static int	isempty(const char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str && ft_isspace(str[i]))
-		i++;
-	return (str && !str[i]);
-}
+// 	i = 0;
+// 	while (str && ft_isspace(str[i]))
+// 		i++;
+// 	return (str && !str[i]);
+// }
 
 static int	check_qparen(const char *str, char q, char text, char dq, int i)
 {
@@ -96,7 +96,7 @@ t_commands	*check_input(const char *str)
 	cmd = ft_calloc(1, sizeof(t_commands));
 	if (!cmd)
 		check = 1;
-	if (!str || isempty(str))
+	if (!str)
 		check = 1;
 	if (check_qparen(str, 0, 0, 0, -1) != (int)ft_strlen(str))
 		check = 1;
