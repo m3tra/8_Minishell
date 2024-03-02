@@ -254,7 +254,7 @@ fclean: $$(call get_lib_target,$${DEFAULT_LIBS},$$@)
 
 clean_lib:
 	${AT}printf "\033[38;5;1m[REMOVING READLINE]\033[0m\n" ${BLOCK}
-	${AT}if [[ -e ${READLINE_ROOT}Makefile ]]; then make -i -C ${READLINE_ROOT} distclean; fi ${BLOCK}
+	${AT}if [ -e ${READLINE_ROOT}Makefile ]; then make -i -C ${READLINE_ROOT} distclean; fi ${BLOCK}
 
 clean_dep: $$(call get_lib_target,$${DEFAULT_LIBS},$$@)
 	${AT}printf "\033[38;5;1m[REMOVING DEPENDENCIES]\033[0m\n" ${BLOCK}
@@ -262,6 +262,7 @@ clean_dep: $$(call get_lib_target,$${DEFAULT_LIBS},$$@)
 	${AT}find ${DEP_ROOT} -type f -name "*.d" -delete ${BLOCK}
 
 clean_all: fclean clean_dep clean_lib
+	${AT}rm -rf bin/ dep/ obj/
 
 re: fclean all
 
