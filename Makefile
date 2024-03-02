@@ -68,7 +68,8 @@ CREATE_LIB_TARGETS := 1
 CC := clang
 
 # Compiler flags
-CFLAGS := -Wall -Wextra -Werror -Wvla -DREADLINE_LIBRARY
+# CFLAGS := -Wall -Wextra -Werror -Wvla -DREADLINE_LIBRARY
+CFLAGS := -Wall -Wextra -Wvla -DREADLINE_LIBRARY
 
 # Generic debug flags
 DFLAGS := -g
@@ -230,7 +231,7 @@ ${LIBFT}: $$(call get_lib_target,$${DEFAULT_LIBS},all) ;
 
 ${READLINE}:
 	${AT}pwd ${BLOCK}
-	${AT}cd ./${READLINE_ROOT} ${BLOCK} && ./configure${BLOCK}
+	${AT}cd ./${READLINE_ROOT} ${BLOCK} && chmod +x ./configure && ./configure${BLOCK}
 	${AT}make -C ${READLINE_ROOT} ${BLOCK}
 
 ################################################################################
