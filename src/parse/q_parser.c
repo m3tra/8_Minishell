@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   q_parser.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fheaton- <fheaton-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fporto <fporto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 17:48:08 by fheaton-          #+#    #+#             */
-/*   Updated: 2022/11/28 00:33:05 by fheaton-         ###   ########.fr       */
+/*   Updated: 2024/03/02 00:35:29 by fporto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	unmask(t_tree *tree)
 		{
 			if (!unmask_str(cenas->cmd[i]))
 				return (0);
-			printf("cmd[%d]: %s\n", i, cenas->cmd[i]);
+			// printf("cmd[%d]: %s\n", i, cenas->cmd[i]);
 		}
 	i = 0;
 	while (i < tree->lcount)
@@ -75,7 +75,7 @@ char	*parse_q(char *str, int count)
 	int	skip;
 	int	in_var;
 	int	i;
-	
+
 	q = 0;
 	dq = 0;
 	in_var = 0;
